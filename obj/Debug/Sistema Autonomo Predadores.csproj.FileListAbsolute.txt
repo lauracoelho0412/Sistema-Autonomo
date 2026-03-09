@@ -1,0 +1,14 @@
+D:\projetos\Sistema Autonomo Predadores\bin\Debug\Sistema Autonomo Predadores.exe.config
+D:\projetos\Sistema Autonomo Predadores\bin\Debug\Sistema Autonomo Predadores.exe
+D:\projetos\Sistema Autonomo Predadores\bin\Debug\Sistema Autonomo Predadores.pdb
+D:\projetos\Sistema Autonomo Predadores\bin\Debug\DraftServer.dll
+D:\projetos\Sistema Autonomo Predadores\bin\Debug\DraftServer.xml
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema Autonomo Predadores.csproj.AssemblyReference.cache
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema_Autonomo_Predadores.Form1.resources
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema_Autonomo_Predadores.Properties.Resources.resources
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema Autonomo Predadores.csproj.GenerateResource.cache
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema Autonomo Predadores.csproj.CoreCompileInputs.cache
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema .403328A8.Up2Date
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema Autonomo Predadores.exe
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema Autonomo Predadores.pdb
+D:\projetos\Sistema Autonomo Predadores\obj\Debug\Sistema Autonomo Predadores.exe.config
