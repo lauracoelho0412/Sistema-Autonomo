@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Draft;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,39 @@ namespace Sistema_Autonomo_Predadores
 {
     internal class Jogador
     {
-        public int id { get; set; }
-        public string nome { get; set; }
-        public string senha { get; set; }
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Senha { get; set; }
+        public int Pontuacao { get; set; }
+
+        public static List<Jogador> ListarJogadores(int idPartida)
+        {
+            // Busca os jogadores via API do jogo
+            string retorno = Jogo.ListarJogadores(idPartida);
+
+            // Normaliza quebras de linha para remover \r do formato Windows
+            retorno = retorno.Replace("\r", "");
+
+            // Divide o retorno em linhas para processar cada jogador
+            string[] linhas = retorno.Split('\n');
+            List<Jogador> listaJogadores = new List<Jogador>();
+
+            // Para na penúltima posição para evitar processar a linha vazia final
+            for (int i = 0; i < linhas.Length - 1; i++)
+            {
+                string[] campos = linhas[i].Split(',');
+
+                Jogador jogador = new Jogador
+                {
+                    Id = Convert.ToInt32(campos[0]),
+                    Nome = campos[1],
+                    Pontuacao = Convert.ToInt32(campos[2])
+                };
+
+                listaJogadores.Add(jogador);
+            }
+
+            return listaJogadores;
+        }
     }
 }

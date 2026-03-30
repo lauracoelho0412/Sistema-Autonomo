@@ -1,6 +1,6 @@
 ﻿namespace Sistema_Autonomo_Predadores
 {
-    partial class Form1
+    partial class Lobby
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -35,12 +35,9 @@
             this.lblVersao = new System.Windows.Forms.Label();
             this.lblNome = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtPartidas = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.btnEntrar = new System.Windows.Forms.Button();
-            this.txtJogadores = new System.Windows.Forms.TextBox();
-            this.btnJogadores = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblID = new System.Windows.Forms.Label();
             this.lblSenha = new System.Windows.Forms.Label();
@@ -50,32 +47,40 @@
             this.txtJogador = new System.Windows.Forms.TextBox();
             this.txtSenhaPartida = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.btnIniciar = new System.Windows.Forms.Button();
             this.lblDraftosaurus = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.lblMao = new System.Windows.Forms.Label();
-            this.lblJogador = new System.Windows.Forms.Label();
-            this.lblMmao = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnVoltar = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.dgvListarJogadores = new System.Windows.Forms.DataGridView();
+            this.btnAtualizar = new System.Windows.Forms.Button();
+            this.lblDino = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lblJDado = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblDado = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListarJogadores)).BeginInit();
             this.SuspendLayout();
             // 
             // btnPartidas
             // 
-            this.btnPartidas.Location = new System.Drawing.Point(22, 21);
+            this.btnPartidas.Location = new System.Drawing.Point(89, 57);
             this.btnPartidas.Name = "btnPartidas";
-            this.btnPartidas.Size = new System.Drawing.Size(82, 25);
+            this.btnPartidas.Size = new System.Drawing.Size(152, 43);
             this.btnPartidas.TabIndex = 0;
             this.btnPartidas.Text = "Listar Partidas";
             this.btnPartidas.UseVisualStyleBackColor = true;
@@ -113,7 +118,7 @@
             // 
             this.lblVersao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVersao.AutoSize = true;
-            this.lblVersao.Location = new System.Drawing.Point(642, 361);
+            this.lblVersao.Location = new System.Drawing.Point(869, 385);
             this.lblVersao.Name = "lblVersao";
             this.lblVersao.Size = new System.Drawing.Size(43, 13);
             this.lblVersao.TabIndex = 12;
@@ -136,14 +141,6 @@
             this.label5.Size = new System.Drawing.Size(39, 13);
             this.label5.TabIndex = 16;
             this.label5.Text = "Grupo:";
-            // 
-            // txtPartidas
-            // 
-            this.txtPartidas.Location = new System.Drawing.Point(22, 67);
-            this.txtPartidas.Multiline = true;
-            this.txtPartidas.Name = "txtPartidas";
-            this.txtPartidas.Size = new System.Drawing.Size(165, 92);
-            this.txtPartidas.TabIndex = 1;
             // 
             // label7
             // 
@@ -173,24 +170,6 @@
             this.btnEntrar.UseVisualStyleBackColor = true;
             this.btnEntrar.Click += new System.EventHandler(this.btnEntrar_Click);
             // 
-            // txtJogadores
-            // 
-            this.txtJogadores.Location = new System.Drawing.Point(22, 219);
-            this.txtJogadores.Multiline = true;
-            this.txtJogadores.Name = "txtJogadores";
-            this.txtJogadores.Size = new System.Drawing.Size(165, 57);
-            this.txtJogadores.TabIndex = 24;
-            // 
-            // btnJogadores
-            // 
-            this.btnJogadores.Location = new System.Drawing.Point(22, 173);
-            this.btnJogadores.Name = "btnJogadores";
-            this.btnJogadores.Size = new System.Drawing.Size(121, 25);
-            this.btnJogadores.TabIndex = 25;
-            this.btnJogadores.Text = "Jogadores da Partida";
-            this.btnJogadores.UseVisualStyleBackColor = true;
-            this.btnJogadores.Click += new System.EventHandler(this.btnJogadores_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -203,7 +182,7 @@
             // lblID
             // 
             this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(4, 133);
+            this.lblID.Location = new System.Drawing.Point(19, 34);
             this.lblID.Name = "lblID";
             this.lblID.Size = new System.Drawing.Size(62, 13);
             this.lblID.TabIndex = 28;
@@ -212,7 +191,7 @@
             // lblSenha
             // 
             this.lblSenha.AutoSize = true;
-            this.lblSenha.Location = new System.Drawing.Point(107, 133);
+            this.lblSenha.Location = new System.Drawing.Point(19, 68);
             this.lblSenha.Name = "lblSenha";
             this.lblSenha.Size = new System.Drawing.Size(82, 13);
             this.lblSenha.TabIndex = 29;
@@ -258,24 +237,14 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(19, 203);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(110, 13);
+            this.label9.Size = new System.Drawing.Size(0, 13);
             this.label9.TabIndex = 35;
-            this.label9.Text = "ID, Nome, Pontuação";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(19, 51);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(117, 13);
-            this.label10.TabIndex = 36;
-            this.label10.Text = "ID, Nome, Data, Status";
             // 
             // btnIniciar
             // 
-            this.btnIniciar.Location = new System.Drawing.Point(127, 19);
+            this.btnIniciar.Location = new System.Drawing.Point(202, 34);
             this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(82, 45);
+            this.btnIniciar.Size = new System.Drawing.Size(121, 45);
             this.btnIniciar.TabIndex = 37;
             this.btnIniciar.Text = "Iniciar Partida";
             this.btnIniciar.UseVisualStyleBackColor = true;
@@ -285,11 +254,11 @@
             // 
             this.lblDraftosaurus.AutoSize = true;
             this.lblDraftosaurus.BackColor = System.Drawing.SystemColors.Control;
-            this.lblDraftosaurus.Location = new System.Drawing.Point(294, 9);
+            this.lblDraftosaurus.Location = new System.Drawing.Point(444, 9);
             this.lblDraftosaurus.Name = "lblDraftosaurus";
-            this.lblDraftosaurus.Size = new System.Drawing.Size(99, 13);
+            this.lblDraftosaurus.Size = new System.Drawing.Size(39, 13);
             this.lblDraftosaurus.TabIndex = 38;
-            this.lblDraftosaurus.Text = "Lobby Draftosaurus";
+            this.lblDraftosaurus.Text = "Lobby ";
             // 
             // groupBox1
             // 
@@ -312,8 +281,6 @@
             this.groupBox2.Controls.Add(this.txtSenhaPartida);
             this.groupBox2.Controls.Add(this.txtJogador);
             this.groupBox2.Controls.Add(this.txtID);
-            this.groupBox2.Controls.Add(this.lblSenha);
-            this.groupBox2.Controls.Add(this.lblID);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.btnEntrar);
             this.groupBox2.Controls.Add(this.label8);
@@ -327,77 +294,29 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.btnJogadores);
-            this.groupBox3.Controls.Add(this.txtJogadores);
-            this.groupBox3.Controls.Add(this.txtPartidas);
+            this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.btnPartidas);
             this.groupBox3.Location = new System.Drawing.Point(228, 38);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(211, 290);
+            this.groupBox3.Size = new System.Drawing.Size(317, 291);
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Verificar Informações";
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.lblMmao);
-            this.groupBox4.Controls.Add(this.panel2);
-            this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Controls.Add(this.label2);
-            this.groupBox4.Controls.Add(this.panel1);
+            this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.lblMao);
-            this.groupBox4.Controls.Add(this.lblJogador);
             this.groupBox4.Controls.Add(this.btnIniciar);
-            this.groupBox4.Location = new System.Drawing.Point(445, 38);
+            this.groupBox4.Controls.Add(this.lblID);
+            this.groupBox4.Controls.Add(this.lblSenha);
+            this.groupBox4.Location = new System.Drawing.Point(562, 39);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(215, 290);
+            this.groupBox4.Size = new System.Drawing.Size(353, 290);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Jogar";
-            // 
-            // panel2
-            // 
-            this.panel2.Location = new System.Drawing.Point(6, 149);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(202, 10);
-            this.panel2.TabIndex = 40;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(109, 109);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(83, 13);
-            this.label11.TabIndex = 42;
-            this.label11.Text = "Dinossauro, Qtd";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(109, 96);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 13);
-            this.label6.TabIndex = 41;
-            this.label6.Text = "Turno";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 96);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
-            this.label2.TabIndex = 40;
-            this.label2.Text = "Minha Mão:";
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(6, 70);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(202, 10);
-            this.panel1.TabIndex = 39;
             // 
             // lblMao
             // 
@@ -407,38 +326,147 @@
             this.lblMao.Size = new System.Drawing.Size(0, 13);
             this.lblMao.TabIndex = 38;
             // 
-            // lblJogador
+            // label2
             // 
-            this.lblJogador.AutoSize = true;
-            this.lblJogador.Location = new System.Drawing.Point(6, 35);
-            this.lblJogador.Name = "lblJogador";
-            this.lblJogador.Size = new System.Drawing.Size(48, 13);
-            this.lblJogador.TabIndex = 32;
-            this.lblJogador.Text = "Jogador:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(18, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.TabIndex = 40;
+            this.label2.Text = "Minha Mão:";
             // 
-            // lblMmao
+            // btnVoltar
             // 
-            this.lblMmao.AutoSize = true;
-            this.lblMmao.Location = new System.Drawing.Point(16, 120);
-            this.lblMmao.Name = "lblMmao";
-            this.lblMmao.Size = new System.Drawing.Size(16, 13);
-            this.lblMmao.TabIndex = 43;
-            this.lblMmao.Text = "...";
+            this.btnVoltar.Location = new System.Drawing.Point(424, 353);
+            this.btnVoltar.Name = "btnVoltar";
+            this.btnVoltar.Size = new System.Drawing.Size(97, 42);
+            this.btnVoltar.TabIndex = 43;
+            this.btnVoltar.Text = "Voltar";
+            this.btnVoltar.UseVisualStyleBackColor = true;
+            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
             // 
-            // Form1
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnAtualizar);
+            this.groupBox5.Controls.Add(this.dgvListarJogadores);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Location = new System.Drawing.Point(0, 139);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(317, 152);
+            this.groupBox5.TabIndex = 43;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Jogadores e Pontuação";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 120);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(0, 13);
+            this.label10.TabIndex = 38;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.lblDado);
+            this.groupBox6.Controls.Add(this.label11);
+            this.groupBox6.Controls.Add(this.lblJDado);
+            this.groupBox6.Controls.Add(this.label13);
+            this.groupBox6.Controls.Add(this.lblDino);
+            this.groupBox6.Controls.Add(this.label12);
+            this.groupBox6.Controls.Add(this.label2);
+            this.groupBox6.Location = new System.Drawing.Point(1, 99);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(352, 190);
+            this.groupBox6.TabIndex = 44;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Turno";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 120);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(0, 13);
+            this.label12.TabIndex = 38;
+            // 
+            // dgvListarJogadores
+            // 
+            this.dgvListarJogadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListarJogadores.Location = new System.Drawing.Point(3, 16);
+            this.dgvListarJogadores.Name = "dgvListarJogadores";
+            this.dgvListarJogadores.Size = new System.Drawing.Size(314, 101);
+            this.dgvListarJogadores.TabIndex = 39;
+            // 
+            // btnAtualizar
+            // 
+            this.btnAtualizar.Location = new System.Drawing.Point(116, 118);
+            this.btnAtualizar.Name = "btnAtualizar";
+            this.btnAtualizar.Size = new System.Drawing.Size(97, 28);
+            this.btnAtualizar.TabIndex = 45;
+            this.btnAtualizar.Text = "Atualizar";
+            this.btnAtualizar.UseVisualStyleBackColor = true;
+            this.btnAtualizar.Click += new System.EventHandler(this.btnAtualizar_Click);
+            // 
+            // lblDino
+            // 
+            this.lblDino.AutoSize = true;
+            this.lblDino.Location = new System.Drawing.Point(22, 49);
+            this.lblDino.Name = "lblDino";
+            this.lblDino.Size = new System.Drawing.Size(16, 13);
+            this.lblDino.TabIndex = 44;
+            this.lblDino.Text = "...";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(129, 20);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(109, 13);
+            this.label13.TabIndex = 45;
+            this.label13.Text = "ID jogador com dado:";
+            // 
+            // lblJDado
+            // 
+            this.lblJDado.AutoSize = true;
+            this.lblJDado.Location = new System.Drawing.Point(129, 49);
+            this.lblJDado.Name = "lblJDado";
+            this.lblJDado.Size = new System.Drawing.Size(16, 13);
+            this.lblJDado.TabIndex = 46;
+            this.lblJDado.Text = "...";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(268, 21);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(36, 13);
+            this.label11.TabIndex = 47;
+            this.label11.Text = "Dado:";
+            // 
+            // lblDado
+            // 
+            this.lblDado.AutoSize = true;
+            this.lblDado.Location = new System.Drawing.Point(268, 49);
+            this.lblDado.Name = "lblDado";
+            this.lblDado.Size = new System.Drawing.Size(16, 13);
+            this.lblDado.TabIndex = 48;
+            this.lblDado.Text = "...";
+            // 
+            // Lobby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 383);
+            this.ClientSize = new System.Drawing.Size(936, 407);
+            this.Controls.Add(this.btnVoltar);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblDraftosaurus);
             this.Controls.Add(this.lblVersao);
-            this.MinimumSize = new System.Drawing.Size(725, 422);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.MinimumSize = new System.Drawing.Size(952, 446);
+            this.Name = "Lobby";
+            this.Text = "Lobby";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -447,6 +475,11 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListarJogadores)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -461,12 +494,9 @@
         private System.Windows.Forms.Label lblVersao;
         private System.Windows.Forms.Label lblNome;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtPartidas;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnEntrar;
-        private System.Windows.Forms.TextBox txtJogadores;
-        private System.Windows.Forms.Button btnJogadores;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblID;
         private System.Windows.Forms.Label lblSenha;
@@ -476,21 +506,26 @@
         private System.Windows.Forms.TextBox txtJogador;
         private System.Windows.Forms.TextBox txtSenhaPartida;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnIniciar;
         private System.Windows.Forms.Label lblDraftosaurus;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label lblJogador;
         private System.Windows.Forms.Label lblMao;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblMmao;
+        private System.Windows.Forms.Button btnVoltar;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DataGridView dgvListarJogadores;
+        private System.Windows.Forms.Button btnAtualizar;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblJDado;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lblDino;
+        private System.Windows.Forms.Label lblDado;
     }
 }
 
