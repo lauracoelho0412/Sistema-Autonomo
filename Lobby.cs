@@ -206,7 +206,7 @@ namespace Sistema_Autonomo_Predadores
                 return "ERRO: Mão vazia";
             }
 
-            // Delega a decisão ao sistema autônomo, que avalia o tabuleiro e escolhe a melhor jogada
+            // Fazer campo de lógica para jogada, criar novo arquivo para isso, ou criar classe de sistema autônomo
             string codigoDino = "";
             string codigoCercado = "";
 
@@ -218,7 +218,7 @@ namespace Sistema_Autonomo_Predadores
             }
 
             // Exibe na interface qual jogada foi decidida pelo sistema autônomo
-            lblDino.Text = $"Jogando: {codigoDino} → Cercado: {codigoCercado}";
+            lblJogada.Text = $"Jogando: {codigoDino} → Cercado: {codigoCercado}";
 
             // Envia a jogada para o servidor via DLL
             string resposta = Jogo.Jogar(_jogador.Id, _jogador.Senha, codigoDino, codigoCercado);

@@ -52,28 +52,29 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.lblMao = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnVoltar = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.dgvListarJogadores = new System.Windows.Forms.DataGridView();
             this.btnAtualizar = new System.Windows.Forms.Button();
-            this.lblDino = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.lblJDado = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.dgvListarJogadores = new System.Windows.Forms.DataGridView();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.lblDado = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblJDado = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lblDino = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblMao = new System.Windows.Forms.Label();
+            this.btnVoltar = new System.Windows.Forms.Button();
+            this.lblJogada = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListarJogadores)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPartidas
@@ -304,6 +305,44 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Verificar Informações";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnAtualizar);
+            this.groupBox5.Controls.Add(this.dgvListarJogadores);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Location = new System.Drawing.Point(0, 139);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(317, 152);
+            this.groupBox5.TabIndex = 43;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Jogadores e Pontuação";
+            // 
+            // btnAtualizar
+            // 
+            this.btnAtualizar.Location = new System.Drawing.Point(116, 118);
+            this.btnAtualizar.Name = "btnAtualizar";
+            this.btnAtualizar.Size = new System.Drawing.Size(97, 28);
+            this.btnAtualizar.TabIndex = 45;
+            this.btnAtualizar.Text = "Atualizar";
+            this.btnAtualizar.UseVisualStyleBackColor = true;
+            this.btnAtualizar.Click += new System.EventHandler(this.btnAtualizar_Click);
+            // 
+            // dgvListarJogadores
+            // 
+            this.dgvListarJogadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListarJogadores.Location = new System.Drawing.Point(3, 16);
+            this.dgvListarJogadores.Name = "dgvListarJogadores";
+            this.dgvListarJogadores.Size = new System.Drawing.Size(314, 101);
+            this.dgvListarJogadores.TabIndex = 39;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 120);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(0, 13);
+            this.label10.TabIndex = 38;
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.groupBox6);
@@ -318,55 +357,9 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Jogar";
             // 
-            // lblMao
-            // 
-            this.lblMao.AutoSize = true;
-            this.lblMao.Location = new System.Drawing.Point(6, 120);
-            this.lblMao.Name = "lblMao";
-            this.lblMao.Size = new System.Drawing.Size(0, 13);
-            this.lblMao.TabIndex = 38;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
-            this.label2.TabIndex = 40;
-            this.label2.Text = "Minha Mão:";
-            // 
-            // btnVoltar
-            // 
-            this.btnVoltar.Location = new System.Drawing.Point(424, 353);
-            this.btnVoltar.Name = "btnVoltar";
-            this.btnVoltar.Size = new System.Drawing.Size(97, 42);
-            this.btnVoltar.TabIndex = 43;
-            this.btnVoltar.Text = "Voltar";
-            this.btnVoltar.UseVisualStyleBackColor = true;
-            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.btnAtualizar);
-            this.groupBox5.Controls.Add(this.dgvListarJogadores);
-            this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Location = new System.Drawing.Point(0, 139);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(317, 152);
-            this.groupBox5.TabIndex = 43;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Jogadores e Pontuação";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 120);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 13);
-            this.label10.TabIndex = 38;
-            // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.lblJogada);
             this.groupBox6.Controls.Add(this.lblDado);
             this.groupBox6.Controls.Add(this.label11);
             this.groupBox6.Controls.Add(this.lblJDado);
@@ -381,58 +374,14 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Turno";
             // 
-            // label12
+            // lblDado
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 120);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(0, 13);
-            this.label12.TabIndex = 38;
-            // 
-            // dgvListarJogadores
-            // 
-            this.dgvListarJogadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvListarJogadores.Location = new System.Drawing.Point(3, 16);
-            this.dgvListarJogadores.Name = "dgvListarJogadores";
-            this.dgvListarJogadores.Size = new System.Drawing.Size(314, 101);
-            this.dgvListarJogadores.TabIndex = 39;
-            // 
-            // btnAtualizar
-            // 
-            this.btnAtualizar.Location = new System.Drawing.Point(116, 118);
-            this.btnAtualizar.Name = "btnAtualizar";
-            this.btnAtualizar.Size = new System.Drawing.Size(97, 28);
-            this.btnAtualizar.TabIndex = 45;
-            this.btnAtualizar.Text = "Atualizar";
-            this.btnAtualizar.UseVisualStyleBackColor = true;
-            this.btnAtualizar.Click += new System.EventHandler(this.btnAtualizar_Click);
-            // 
-            // lblDino
-            // 
-            this.lblDino.AutoSize = true;
-            this.lblDino.Location = new System.Drawing.Point(22, 49);
-            this.lblDino.Name = "lblDino";
-            this.lblDino.Size = new System.Drawing.Size(16, 13);
-            this.lblDino.TabIndex = 44;
-            this.lblDino.Text = "...";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(129, 20);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(109, 13);
-            this.label13.TabIndex = 45;
-            this.label13.Text = "ID jogador com dado:";
-            // 
-            // lblJDado
-            // 
-            this.lblJDado.AutoSize = true;
-            this.lblJDado.Location = new System.Drawing.Point(129, 49);
-            this.lblJDado.Name = "lblJDado";
-            this.lblJDado.Size = new System.Drawing.Size(16, 13);
-            this.lblJDado.TabIndex = 46;
-            this.lblJDado.Text = "...";
+            this.lblDado.AutoSize = true;
+            this.lblDado.Location = new System.Drawing.Point(268, 49);
+            this.lblDado.Name = "lblDado";
+            this.lblDado.Size = new System.Drawing.Size(16, 13);
+            this.lblDado.TabIndex = 48;
+            this.lblDado.Text = "...";
             // 
             // label11
             // 
@@ -443,14 +392,76 @@
             this.label11.TabIndex = 47;
             this.label11.Text = "Dado:";
             // 
-            // lblDado
+            // lblJDado
             // 
-            this.lblDado.AutoSize = true;
-            this.lblDado.Location = new System.Drawing.Point(268, 49);
-            this.lblDado.Name = "lblDado";
-            this.lblDado.Size = new System.Drawing.Size(16, 13);
-            this.lblDado.TabIndex = 48;
-            this.lblDado.Text = "...";
+            this.lblJDado.AutoSize = true;
+            this.lblJDado.Location = new System.Drawing.Point(129, 49);
+            this.lblJDado.Name = "lblJDado";
+            this.lblJDado.Size = new System.Drawing.Size(16, 13);
+            this.lblJDado.TabIndex = 46;
+            this.lblJDado.Text = "...";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(129, 20);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(98, 13);
+            this.label13.TabIndex = 45;
+            this.label13.Text = "Jogador com dado:";
+            // 
+            // lblDino
+            // 
+            this.lblDino.AutoSize = true;
+            this.lblDino.Location = new System.Drawing.Point(22, 49);
+            this.lblDino.Name = "lblDino";
+            this.lblDino.Size = new System.Drawing.Size(16, 13);
+            this.lblDino.TabIndex = 44;
+            this.lblDino.Text = "...";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 120);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(0, 13);
+            this.label12.TabIndex = 38;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(18, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.TabIndex = 40;
+            this.label2.Text = "Minha Mão:";
+            // 
+            // lblMao
+            // 
+            this.lblMao.AutoSize = true;
+            this.lblMao.Location = new System.Drawing.Point(6, 120);
+            this.lblMao.Name = "lblMao";
+            this.lblMao.Size = new System.Drawing.Size(0, 13);
+            this.lblMao.TabIndex = 38;
+            // 
+            // btnVoltar
+            // 
+            this.btnVoltar.Location = new System.Drawing.Point(424, 353);
+            this.btnVoltar.Name = "btnVoltar";
+            this.btnVoltar.Size = new System.Drawing.Size(97, 42);
+            this.btnVoltar.TabIndex = 43;
+            this.btnVoltar.Text = "Voltar";
+            this.btnVoltar.UseVisualStyleBackColor = true;
+            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
+            // 
+            // lblJogada
+            // 
+            this.lblJogada.AutoSize = true;
+            this.lblJogada.Location = new System.Drawing.Point(12, 107);
+            this.lblJogada.Name = "lblJogada";
+            this.lblJogada.Size = new System.Drawing.Size(45, 13);
+            this.lblJogada.TabIndex = 49;
+            this.lblJogada.Text = "Jogada:";
             // 
             // Lobby
             // 
@@ -473,13 +484,13 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListarJogadores)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvListarJogadores)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -526,6 +537,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label lblDino;
         private System.Windows.Forms.Label lblDado;
+        private System.Windows.Forms.Label lblJogada;
     }
 }
 
