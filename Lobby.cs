@@ -207,8 +207,10 @@ namespace Sistema_Autonomo_Predadores
             }
 
             // Delega a decisão ao sistema autônomo, que avalia o tabuleiro e escolhe a melhor jogada
-            string codigoDino = "";
-            string codigoCercado = "";
+            var jogada = Decisao.EscolherJogada(mao, dado);
+
+            string codigoDino = jogada.Item1;
+            string codigoCercado = jogada.Item2;
 
             // Valida se o sistema retornou uma jogada válida
             if (codigoDino == null || codigoCercado == null)
@@ -218,7 +220,7 @@ namespace Sistema_Autonomo_Predadores
             }
 
             // Exibe na interface qual jogada foi decidida pelo sistema autônomo
-            lblDino.Text = $"Jogando: {codigoDino} → Cercado: {codigoCercado}";
+            lblDino.Text = $"Jogando: {codigoDino}\nCercado: {codigoCercado}";
 
             // Envia a jogada para o servidor via DLL
             string resposta = Jogo.Jogar(_jogador.Id, _jogador.Senha, codigoDino, codigoCercado);

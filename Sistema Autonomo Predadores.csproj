@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decisao.cs" />
     <Compile Include="Dinossauro.cs" />
     <Compile Include="ListarPartidas.cs">
       <SubType>Form</SubType>
