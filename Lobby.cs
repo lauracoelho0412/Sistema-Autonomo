@@ -211,6 +211,9 @@ namespace Sistema_Autonomo_Predadores
 
             string codigoDino = jogada.Item1;
             string codigoCercado = jogada.Item2;
+            // Fazer campo de lógica para jogada, criar novo arquivo para isso, ou criar classe de sistema autônomo
+            string codigoDino = "";
+            string codigoCercado = "";
 
             // Valida se o sistema retornou uma jogada válida
             if (codigoDino == null || codigoCercado == null)
@@ -221,6 +224,7 @@ namespace Sistema_Autonomo_Predadores
 
             // Exibe na interface qual jogada foi decidida pelo sistema autônomo
             lblDino.Text = $"Jogando: {codigoDino}\nCercado: {codigoCercado}";
+            lblJogada.Text = $"Jogando: {codigoDino} → Cercado: {codigoCercado}";
 
             // Envia a jogada para o servidor via DLL
             string resposta = Jogo.Jogar(_jogador.Id, _jogador.Senha, codigoDino, codigoCercado);

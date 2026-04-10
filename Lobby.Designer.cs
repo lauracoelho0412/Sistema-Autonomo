@@ -68,6 +68,7 @@
             this.lblMao = new System.Windows.Forms.Label();
             this.btnVoltar = new System.Windows.Forms.Button();
             this.lblProxTurno = new System.Windows.Forms.Label();
+            this.lblJogada = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -361,6 +362,7 @@
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.lblProxTurno);
+            this.groupBox6.Controls.Add(this.lblJogada);
             this.groupBox6.Controls.Add(this.lblDado);
             this.groupBox6.Controls.Add(this.label11);
             this.groupBox6.Controls.Add(this.lblJDado);
@@ -410,6 +412,9 @@
             this.label13.Size = new System.Drawing.Size(109, 13);
             this.label13.TabIndex = 45;
             this.label13.Text = "ID jogador com dado:";
+            this.label13.Size = new System.Drawing.Size(98, 13);
+            this.label13.TabIndex = 45;
+            this.label13.Text = "Jogador com dado:";
             // 
             // lblDino
             // 
@@ -463,6 +468,14 @@
             this.lblProxTurno.Size = new System.Drawing.Size(16, 13);
             this.lblProxTurno.TabIndex = 49;
             this.lblProxTurno.Text = "...";
+            // lblJogada
+            // 
+            this.lblJogada.AutoSize = true;
+            this.lblJogada.Location = new System.Drawing.Point(12, 107);
+            this.lblJogada.Name = "lblJogada";
+            this.lblJogada.Size = new System.Drawing.Size(45, 13);
+            this.lblJogada.TabIndex = 49;
+            this.lblJogada.Text = "Jogada:";
             // 
             // Lobby
             // 
@@ -539,6 +552,7 @@
         private System.Windows.Forms.Label lblDino;
         private System.Windows.Forms.Label lblDado;
         private System.Windows.Forms.Label lblProxTurno;
+        private System.Windows.Forms.Label lblJogada;
     }
 }
 
