@@ -206,6 +206,11 @@ namespace Sistema_Autonomo_Predadores
                 return "ERRO: Mão vazia";
             }
 
+            // Delega a decisão ao sistema autônomo, que avalia o tabuleiro e escolhe a melhor jogada
+            var jogada = Decisao.EscolherJogada(mao, dado);
+
+            string codigoDino = jogada.Item1;
+            string codigoCercado = jogada.Item2;
             // Fazer campo de lógica para jogada, criar novo arquivo para isso, ou criar classe de sistema autônomo
             string codigoDino = "";
             string codigoCercado = "";
@@ -218,6 +223,7 @@ namespace Sistema_Autonomo_Predadores
             }
 
             // Exibe na interface qual jogada foi decidida pelo sistema autônomo
+            lblDino.Text = $"Jogando: {codigoDino}\nCercado: {codigoCercado}";
             lblJogada.Text = $"Jogando: {codigoDino} → Cercado: {codigoCercado}";
 
             // Envia a jogada para o servidor via DLL
@@ -231,7 +237,7 @@ namespace Sistema_Autonomo_Predadores
 
             // A resposta é o número do próximo turno
             _turno.TurnoAtual = Convert.ToInt32(resposta);
-            lblDado.Text = $"Próximo turno: {_turno.TurnoAtual}";
+            lblProxTurno.Text = $"Próximo turno: {_turno.TurnoAtual}";
 
             return resposta;
         }
