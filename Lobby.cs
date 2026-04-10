@@ -233,7 +233,7 @@ namespace Sistema_Autonomo_Predadores
 
             // A resposta é o número do próximo turno
             _turno.TurnoAtual = Convert.ToInt32(resposta);
-            lblDado.Text = $"Próximo turno: {_turno.TurnoAtual}";
+            lblProxTurno.Text = $"Próximo turno: {_turno.TurnoAtual}";
 
             return resposta;
         }
