@@ -16,6 +16,7 @@ namespace Sistema_Autonomo_Predadores
     public partial class Lobby : Form
     {
         // ── Estado interno do Lobby ──────────────────────────────────────────
+        private FrmJogo telaJogo;
         private Jogador _jogador;
         private Partida _partida;
         private Turno _turno;
@@ -138,6 +139,9 @@ namespace Sistema_Autonomo_Predadores
                 MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            telaJogo = new FrmJogo();
+            telaJogo.Show();
+
 
             // Extrai o ID do jogador que rolou o dado e o resultado do dado
             string[] dadoInfo = retorno.Split(',');
@@ -157,6 +161,8 @@ namespace Sistema_Autonomo_Predadores
             lblJDado.Text = ObterNomeJogadorDado(_partida.Id);
             lblDino.Text = mao;
             RealizarJogada(Dinossauro.ListarDinossauros(mao), _turno.Dado);
+
+            
 
         }
 
@@ -209,11 +215,16 @@ namespace Sistema_Autonomo_Predadores
             // Delega a decisão ao sistema autônomo, que avalia o tabuleiro e escolhe a melhor jogada
             var jogada = Decisao.EscolherJogada(mao, dado);
 
-            string codigoDino = jogada.Item1;
-            string codigoCercado = jogada.Item2;
             // Fazer campo de lógica para jogada, criar novo arquivo para isso, ou criar classe de sistema autônomo
             string codigoDino = "";
             string codigoCercado = "";
+
+            codigoDino = jogada.Item1;
+            codigoCercado = jogada.Item2;
+            if (telaJogo != null)
+            {
+                telaJogo.ReceberJogada(codigoDino, codigoCercado);
+            }
 
             // Valida se o sistema retornou uma jogada válida
             if (codigoDino == null || codigoCercado == null)
