@@ -25,9 +25,6 @@ namespace Sistema_Autonomo_Predadores
         {
             InitializeComponent();
 
-            this.BackgroundImage = Image.FromFile(@"C:\Users\Anna Carolina\OneDrive\Área de Trabalho\Sistema - autonomo\imagens\fundo.png");
-            this.BackgroundImageLayout = ImageLayout.Stretch;
-
             // Exibe a versão atual do jogo no label de rodapé
             lblVersao.Text = "Versão: " + Jogo.versao;
 
