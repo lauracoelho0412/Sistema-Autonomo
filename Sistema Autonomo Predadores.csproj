@@ -91,7 +91,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -105,24 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fundo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fundo_forms.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fundo_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fundo_2_.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fundo_21.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fundo_2-1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

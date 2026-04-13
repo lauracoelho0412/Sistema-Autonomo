@@ -58,8 +58,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.lblProxTurno = new System.Windows.Forms.Label();
-            this.lblJogada = new System.Windows.Forms.Label();
             this.lblDado = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblJDado = new System.Windows.Forms.Label();
@@ -69,6 +67,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblMao = new System.Windows.Forms.Label();
             this.btnVoltar = new System.Windows.Forms.Button();
+            this.lblProxTurno = new System.Windows.Forms.Label();
+            this.lblJogada = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -120,7 +120,7 @@
             // 
             this.lblVersao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVersao.AutoSize = true;
-            this.lblVersao.Location = new System.Drawing.Point(869, 488);
+            this.lblVersao.Location = new System.Drawing.Point(869, 385);
             this.lblVersao.Name = "lblVersao";
             this.lblVersao.Size = new System.Drawing.Size(43, 13);
             this.lblVersao.TabIndex = 12;
@@ -299,7 +299,7 @@
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.btnPartidas);
-            this.groupBox3.Location = new System.Drawing.Point(227, 37);
+            this.groupBox3.Location = new System.Drawing.Point(228, 38);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(317, 291);
             this.groupBox3.TabIndex = 41;
@@ -347,24 +347,20 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.BackgroundImage = global::Sistema_Autonomo_Predadores.Properties.Resources.fundo_21;
-            this.groupBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.lblMao);
             this.groupBox4.Controls.Add(this.btnIniciar);
             this.groupBox4.Controls.Add(this.lblID);
             this.groupBox4.Controls.Add(this.lblSenha);
-            this.groupBox4.Location = new System.Drawing.Point(561, 37);
+            this.groupBox4.Location = new System.Drawing.Point(562, 39);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(363, 291);
+            this.groupBox4.Size = new System.Drawing.Size(353, 290);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Jogar";
             // 
             // groupBox6
             // 
-            this.groupBox6.BackgroundImage = global::Sistema_Autonomo_Predadores.Properties.Resources.fundo_2_1;
-            this.groupBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.groupBox6.Controls.Add(this.lblProxTurno);
             this.groupBox6.Controls.Add(this.lblJogada);
             this.groupBox6.Controls.Add(this.lblDado);
@@ -376,28 +372,10 @@
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Location = new System.Drawing.Point(1, 99);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(362, 190);
+            this.groupBox6.Size = new System.Drawing.Size(352, 190);
             this.groupBox6.TabIndex = 44;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Turno";
-            // 
-            // lblProxTurno
-            // 
-            this.lblProxTurno.AutoSize = true;
-            this.lblProxTurno.Location = new System.Drawing.Point(18, 85);
-            this.lblProxTurno.Name = "lblProxTurno";
-            this.lblProxTurno.Size = new System.Drawing.Size(16, 13);
-            this.lblProxTurno.TabIndex = 49;
-            this.lblProxTurno.Text = "...";
-            // 
-            // lblJogada
-            // 
-            this.lblJogada.AutoSize = true;
-            this.lblJogada.Location = new System.Drawing.Point(12, 107);
-            this.lblJogada.Name = "lblJogada";
-            this.lblJogada.Size = new System.Drawing.Size(45, 13);
-            this.lblJogada.TabIndex = 49;
-            this.lblJogada.Text = "Jogada:";
             // 
             // lblDado
             // 
@@ -431,6 +409,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(129, 20);
             this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(109, 13);
+            this.label13.TabIndex = 45;
+            this.label13.Text = "ID jogador com dado:";
             this.label13.Size = new System.Drawing.Size(98, 13);
             this.label13.TabIndex = 45;
             this.label13.Text = "Jogador com dado:";
@@ -471,7 +452,7 @@
             // 
             // btnVoltar
             // 
-            this.btnVoltar.Location = new System.Drawing.Point(447, 411);
+            this.btnVoltar.Location = new System.Drawing.Point(424, 353);
             this.btnVoltar.Name = "btnVoltar";
             this.btnVoltar.Size = new System.Drawing.Size(97, 42);
             this.btnVoltar.TabIndex = 43;
@@ -479,13 +460,28 @@
             this.btnVoltar.UseVisualStyleBackColor = true;
             this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
             // 
+            // lblProxTurno
+            // 
+            this.lblProxTurno.AutoSize = true;
+            this.lblProxTurno.Location = new System.Drawing.Point(18, 85);
+            this.lblProxTurno.Name = "lblProxTurno";
+            this.lblProxTurno.Size = new System.Drawing.Size(16, 13);
+            this.lblProxTurno.TabIndex = 49;
+            this.lblProxTurno.Text = "...";
+            // lblJogada
+            // 
+            this.lblJogada.AutoSize = true;
+            this.lblJogada.Location = new System.Drawing.Point(12, 107);
+            this.lblJogada.Name = "lblJogada";
+            this.lblJogada.Size = new System.Drawing.Size(45, 13);
+            this.lblJogada.TabIndex = 49;
+            this.lblJogada.Text = "Jogada:";
+            // 
             // Lobby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Sistema_Autonomo_Predadores.Properties.Resources.fundo_forms;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(936, 510);
+            this.ClientSize = new System.Drawing.Size(936, 407);
             this.Controls.Add(this.btnVoltar);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
