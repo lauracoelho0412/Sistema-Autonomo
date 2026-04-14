@@ -15,10 +15,7 @@ namespace Sistema_Autonomo_Predadores
     public partial class FrmJogo : Form
     {
 
-        public void ReceberJogada(string dino, string cercado)
-        {
-            AdicionarDino(dino, cercado);
-        }
+        private string maoAtual;
         public FrmJogo()
         {
             InitializeComponent();
@@ -26,103 +23,135 @@ namespace Sistema_Autonomo_Predadores
 
         private void FrmJogo_Load(object sender, EventArgs e)
         {
+            //tira o fundo branco dos panel
+            panelFI.Parent = pbTabuleiro;
+            panelFI.BackColor = Color.Transparent;
 
-            AjustarTransparencia(this);
+            panelPA.Parent = pbTabuleiro;
+            panelPA.BackColor = Color.Transparent;
+
+            panelIS.Parent = pbTabuleiro;
+            panelIS.BackColor = Color.Transparent;
+
+            panelMT.Parent = pbTabuleiro;
+            panelMT.BackColor = Color.Transparent;
+
+            panelCD.Parent = pbTabuleiro;
+            panelCD.BackColor = Color.Transparent;
+
+            panelRS.Parent = pbTabuleiro;
+            panelRS.BackColor = Color.Transparent;
+
+
+            this.DoubleBuffered = true; // evita flicker
+          this.Refresh();
+
 
 
         }
+        public void ReceberJogada(string dino, string cercado)
+        {
+            AdicionarDino(dino, cercado);
+        }
 
+        //HUD
+        public void AtualizarInfoTurno(string jogador, string dado, int turno, string mao)
+        {
+            lblJogadorDado.Text = "Jogador: " + jogador;
+            lblDado.Text = "Dado: " + dado;
+            lblTurno.Text = "Turno: " + turno;
+            lblMao.Text = "Mão: " + mao;
+
+            maoAtual = mao; // salva a mão
+        }
 
         private void AdicionarDino(string nomeDino, string cercado)
         {
             PictureBox pb = new PictureBox();
             pb.SizeMode = PictureBoxSizeMode.Zoom;
-            pb.Width = 50;
-            pb.Height = 50;
 
-            //CONVERTE CODIGO → NOME DA COR
-             nomeDino = nomeDino.ToUpper();
 
+            // Declare a variável dinoSize ANTES de usar
+            int dinoSize = 50; // tamanho fixo do dino, esta muito pequeno tem q ajustar isso 
+            pb.Width = dinoSize;
+            pb.Height = dinoSize;
+
+            // Configura o tamanho fixo para todos
+            int tamanhoDino = 50;
+            pb.Width = tamanhoDino;
+            pb.Height = tamanhoDino;
+
+
+            // Define a imagem do dino
+            nomeDino = nomeDino.ToUpper();
             switch (nomeDino)
             {
-                case "BR": nomeDino = "VERDE"; break;
-                case "EP": nomeDino = "ROSA"; break;
-                case "AM": nomeDino = "AMARELO"; break;
-                case "AZ": nomeDino = "AZUL"; break;
-            }
-
-
-            switch (nomeDino)
-            {
-                case "VERDE":
-                    pb.Image = Properties.Resources.dinoverde;
-                    break;
-
-                case "AZUL":
-                    pb.Image = Properties.Resources.dinoazul;
-                    break;
-
-                case "AMARELO":
-                    pb.Image = Properties.Resources.dinoamarelo;
-                    break;
-
-                case "ROSA":
-                    pb.Image = Properties.Resources.dinorosa;
-                    break;
-
+                case "BR": pb.Image = Properties.Resources.dinoverde; break;
+                case "AZ": pb.Image = Properties.Resources.dinoazul; break;
+                case "AM": pb.Image = Properties.Resources.dinoamarelo; break;
+                case "EP": pb.Image = Properties.Resources.dinorosa; break;
                 default:
                     MessageBox.Show("Dino inválido");
                     return;
             }
 
-            //CONVERTE CERCADO (SIGLA → NUMERO)
-            cercado = cercado.ToUpper();
-
-            switch (cercado)
-            {
-                case "FI": cercado = "1"; break;
-                case "PA": cercado = "2"; break;
-                case "IS": cercado = "3"; break;
-                case "MT": cercado = "4"; break;
-                case "CD": cercado = "5"; break;
-                case "RS": cercado = "6"; break;
-            }
 
             Panel destino = null;
-
-            switch (cercado)
+            switch (cercado.ToUpper())
             {
-                case "1": destino = panelFI; break;
-                case "2": destino = panelPA; break;
-                case "3": destino = panelIS; break;
-                case "4": destino = panelMT; break;
-                case "5": destino = panelCD; break;
-                case "6": destino = panelRS; break;
-
-                default:
-                    MessageBox.Show("Cercado inválido");
+                case "FI": destino = panelFI; break;
+                case "PA": destino = panelPA; break;
+                case "IS": destino = panelIS; break;
+                case "MT": destino = panelMT; break;
+                case "CD": destino = panelCD; break;
+                case "RS": destino = panelRS; break;
+                default: destino = null; break;
+                    MessageBox.Show("Cercado inválido! Use FI, PA, IS, MT, CD ou RS");
                     return;
             }
-            pb.Left = (destino.Controls.Count % 3) * 55;
-            pb.Top = (destino.Controls.Count / 3) * 55;
 
+            // Número de slots por cercado
+            int numSlots = 0;
+            switch (cercado.ToUpper())
+            {
+                case "FI": numSlots = 6; break;
+                case "PA": numSlots = 5; break;
+                case "IS": numSlots = 5; break;
+                case "MT": numSlots = 4; break;
+                case "CD": numSlots = 3; break;
+                case "RS": numSlots = 4; break;
+            }
+
+            // Calcula posições centralizadas para cada slot
+            Point[] posicoes = new Point[numSlots];
+            int y = 10; // linha constante
+            int slotWidth = destino.Width / numSlots;
+
+            for (int i = 0; i < numSlots; i++)
+            {
+                int x = i * slotWidth + (slotWidth - dinoSize) / 2;
+                posicoes[i] = new Point(x, y);
+            }
+
+            // Verifica se ainda cabe mais dinos
+            int index = destino.Controls.Count;
+            if (index >= posicoes.Length)
+            {
+                MessageBox.Show("Cercado cheio!");
+                return;
+            }
+
+            // Coloca o dino na posição correta
+            pb.Left = posicoes[index].X;
+            pb.Top = posicoes[index].Y;
+
+            // Adiciona ao painel
             destino.Controls.Add(pb);
-        
+            destino.Refresh();
+
+
         }
 
-        private void AjustarTransparencia(Control controle)
-        {
-            if (controle is Panel)
-            {
-                controle.Parent = pbTabuleiro;
-                controle.BackColor = Color.Transparent;
-            }
-
-            foreach (Control filho in controle.Controls)
-            {
-                AjustarTransparencia(filho);
-            }
-        }
         private void pbTabuleiro_Click(object sender, EventArgs e)
         {
         }
@@ -132,6 +161,36 @@ namespace Sistema_Autonomo_Predadores
 
         }
 
+        private void panelFI_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
+
+        private void lblTurno_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnJogarManual_Click(object sender, EventArgs e)
+        {
+            string dino = cmbDino.SelectedItem?.ToString();
+            string cercado = cmbCercado.SelectedItem?.ToString();
+
+
+            if (dino == null || cercado == null)
+            {
+                MessageBox.Show("Selecione dino e cercado!");
+                return;
+            }
+
+
+            AdicionarDino(dino, cercado);
+            //  REMOVE DA MÃO
+            maoAtual = maoAtual.Replace(dino + ",1", "");
+
+            lblMao.Text = "Mão:\n" + maoAtual;
+        }
+
+       
     }
 }

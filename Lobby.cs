@@ -22,6 +22,10 @@ namespace Sistema_Autonomo_Predadores
         private Turno _turno;
         private Dinossauro _dinossauro;
 
+
+        private Partida partidaAtual;
+
+
         public Lobby()
         {
             InitializeComponent();
@@ -36,7 +40,7 @@ namespace Sistema_Autonomo_Predadores
             _dinossauro = new Dinossauro();
         }
 
-        // ── Eventos de Botões ────────────────────────────────────────────────
+        // ── Eventos de Botões 
 
         private void btn_Click(object sender, EventArgs e)
         {
@@ -72,6 +76,7 @@ namespace Sistema_Autonomo_Predadores
                 return;
             }
 
+
             string retorno = Jogo.CriarPartida(txtNome.Text, txtSenha.Text, lblNome.Text);
 
             if (retorno.Contains("ERRO"))
@@ -80,12 +85,48 @@ namespace Sistema_Autonomo_Predadores
             }
             else
             {
-                // Armazena o ID retornado e atualiza os campos visuais
+                // IMPORTANTE: instanciar antes de usar testando
+                _partida = new Partida();
                 _partida.Id = Convert.ToInt32(retorno);
+
+                // atualiza campos
                 txtID.Text = retorno;
                 txtSenhaPartida.Text = txtSenha.Text;
+
+                // ENTRA AUTOMATICAMENTE NA PARTIDA
+                string retornoEntrar = Jogo.Entrar(
+                    _partida.Id,
+                    lblNome.Text,
+                    txtSenha.Text
+                );
+
+                if (retornoEntrar.Contains(","))
+                {
+                    string[] info = retornoEntrar.Split(',');
+
+
+                    _jogador = new Jogador();
+                    _jogador.Id = Convert.ToInt32(info[0]);
+                    _jogador.Nome = lblNome.Text;
+                    _jogador.Senha = info[1];
+                    txtJogador.Text = _jogador.Nome;
+
+                    lblID.Text = $"ID {_jogador.Nome}: {_jogador.Id}";
+                    lblSenha.Text = $"Senha {_jogador.Nome}: {_jogador.Senha}";
+
+                    // Atualiza tabela com dados do servidor
+                    AtualizarTabela();
+
+                    MessageBox.Show("Partida criada e jogador entrou automaticamente!");
+                }
+                else
+                {
+                    MessageBox.Show(retornoEntrar);
+                }
+
             }
         }
+        
 
         private void btnEntrar_Click(object sender, EventArgs e)
         {
@@ -109,6 +150,7 @@ namespace Sistema_Autonomo_Predadores
             {
                 string[] info = retorno.Split(',');
 
+                _jogador = new Jogador();
                 _jogador.Id = Convert.ToInt32(info[0]);
                 _jogador.Nome = txtJogador.Text;
                 _jogador.Senha = info[1];
@@ -116,6 +158,10 @@ namespace Sistema_Autonomo_Predadores
                 // Exibe os dados do jogador autenticado na tela
                 lblID.Text = $"ID {_jogador.Nome}: {_jogador.Id}";
                 lblSenha.Text = $"Senha {_jogador.Nome}: {_jogador.Senha}";
+
+              
+                // ATUALIZA DO SERVIDOR TAMBÉM
+                dgvListarJogadores.DataSource = Jogador.ListarJogadores(_partida.Id);
 
                 MessageBox.Show(
                     $"{_jogador.Nome} entrou na partida",
@@ -130,8 +176,24 @@ namespace Sistema_Autonomo_Predadores
             }
         }
 
+
+
+
+        //
         private void btnIniciar_Click(object sender, EventArgs e)
         {
+
+            if (_jogador == null || _jogador.Id == 0)
+            {
+                MessageBox.Show("Entre na partida antes de iniciar!");
+                return;
+            }
+
+            if (_partida == null || _partida.Id == 0)
+            {
+                MessageBox.Show("Crie ou selecione uma partida!");
+                return;
+            }
             string retorno = Jogo.Iniciar(_jogador.Id, _jogador.Senha);
 
             if (retorno.Contains("ERRO"))
@@ -139,9 +201,8 @@ namespace Sistema_Autonomo_Predadores
                 MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            telaJogo = new FrmJogo();
-            telaJogo.Show();
 
+          
 
             // Extrai o ID do jogador que rolou o dado e o resultado do dado
             string[] dadoInfo = retorno.Split(',');
@@ -158,11 +219,22 @@ namespace Sistema_Autonomo_Predadores
 
             // Atualiza os labels de dado, jogador e dinossauros na interface
             lblDado.Text = _turno.Dado;
-            lblJDado.Text = ObterNomeJogadorDado(_partida.Id);
+            lblJDado.Text = _jogador.Nome;
             lblDino.Text = mao;
+
+
             RealizarJogada(Dinossauro.ListarDinossauros(mao), _turno.Dado);
 
-            
+            // SÓ AGORA ABRE O JOGO teste
+            telaJogo = new FrmJogo();
+            telaJogo.Show();
+
+            telaJogo.AtualizarInfoTurno(
+                lblJDado.Text,
+                _turno.Dado,
+                _turno.TurnoAtual,
+                mao
+            );
 
         }
 
@@ -173,22 +245,13 @@ namespace Sistema_Autonomo_Predadores
 
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
-            dgvListarJogadores.DataSource = Jogador.ListarJogadores(_partida.Id);
+            AtualizarTabela();
 
-            // Configurações de interação e visual da tabela de jogadores
-            dgvListarJogadores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvListarJogadores.EditMode = DataGridViewEditMode.EditProgrammatically;
-            dgvListarJogadores.AllowUserToResizeColumns = false;
-            dgvListarJogadores.AllowUserToResizeRows = false;
-            dgvListarJogadores.RowHeadersVisible = false;
-
-            // Configura as colunas: nome preenche o espaço, senha fica oculta
-            dgvListarJogadores.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvListarJogadores.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvListarJogadores.Columns[2].Visible = false;
         }
 
-        // ── Métodos Auxiliares ───────────────────────────────────────────────
+
+
+        // ── Métodos Auxiliares 
 
         private string ObterNomeJogadorDado(int idPartida)
         {
@@ -252,6 +315,24 @@ namespace Sistema_Autonomo_Predadores
 
             return resposta;
         }
+
+        private void AtualizarTabela()
+        {
+            dgvListarJogadores.DataSource = Jogador.ListarJogadores(_partida.Id);
+
+            dgvListarJogadores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvListarJogadores.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dgvListarJogadores.AllowUserToResizeColumns = false;
+            dgvListarJogadores.AllowUserToResizeRows = false;
+            dgvListarJogadores.RowHeadersVisible = false;
+
+            dgvListarJogadores.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvListarJogadores.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvListarJogadores.Columns[2].Visible = false;
+
+        }
+
+
     }
 }
     
