@@ -12,7 +12,13 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sistema_Autonomo_Predadores
-{
+{ 
+
+    // ------AQUI TEM ------
+    // CRIAR PARTIDA
+    //ENTRAR NA PARTIDA
+    //INICIAR O JOGO
+    //MOSTRAR JOGADORES
     public partial class Lobby : Form
     {
         // ── Estado interno do Lobby ──────────────────────────────────────────
@@ -63,6 +69,9 @@ namespace Sistema_Autonomo_Predadores
             }
         }
 
+
+
+
         private void btnCriarPartida_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtNome.Text) || string.IsNullOrEmpty(txtSenha.Text))
@@ -75,7 +84,6 @@ namespace Sistema_Autonomo_Predadores
                 );
                 return;
             }
-
 
             string retorno = Jogo.CriarPartida(txtNome.Text, txtSenha.Text, lblNome.Text);
 
@@ -128,6 +136,9 @@ namespace Sistema_Autonomo_Predadores
         }
         
 
+
+
+
         private void btnEntrar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtID.Text)
@@ -179,7 +190,13 @@ namespace Sistema_Autonomo_Predadores
 
 
 
-        //
+        // PRINCIPAL
+        /* Inicia o jogo no servidor
+        Pega o dado
+        Pega a mão do jogador
+        Calcula turno
+        Abre a tela do jogo (FrmJogo)
+        Envia os dados pra tela*/
         private void btnIniciar_Click(object sender, EventArgs e)
         {
 
@@ -201,9 +218,6 @@ namespace Sistema_Autonomo_Predadores
                 MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-          
-
             // Extrai o ID do jogador que rolou o dado e o resultado do dado
             string[] dadoInfo = retorno.Split(',');
             _turno.IdJogadorDado = Convert.ToInt32(dadoInfo[0]);
@@ -222,10 +236,9 @@ namespace Sistema_Autonomo_Predadores
             lblJDado.Text = _jogador.Nome;
             lblDino.Text = mao;
 
-
             RealizarJogada(Dinossauro.ListarDinossauros(mao), _turno.Dado);
 
-            // SÓ AGORA ABRE O JOGO teste
+            // SÓ AGORA ABRE O JOGO teste TROCAR NOME PRA TABULEIRO
             telaJogo = new FrmJogo();
             telaJogo.Show();
 
@@ -238,21 +251,19 @@ namespace Sistema_Autonomo_Predadores
 
         }
 
+
+
         private void btnVoltar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
             AtualizarTabela();
 
         }
 
-
-
         // ── Métodos Auxiliares 
-
         private string ObterNomeJogadorDado(int idPartida)
         {
             List<Jogador> jogadores = Jogador.ListarJogadores(idPartida);
@@ -266,6 +277,8 @@ namespace Sistema_Autonomo_Predadores
             return "Jogador não encontrado!";
         }
 
+
+        //JOGADA AUTOMATICA 'PRA DEPOIS'
         private string RealizarJogada(List<Dinossauro> mao, string dado)
         {
             // Verifica se há dinossauros disponíveis antes de tentar jogar
@@ -332,7 +345,15 @@ namespace Sistema_Autonomo_Predadores
 
         }
 
+        private void label7_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void txtID_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
     

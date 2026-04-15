@@ -81,7 +81,7 @@
             // btnPartidas
             // 
             this.btnPartidas.Location = new System.Drawing.Point(119, 70);
-            this.btnPartidas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPartidas.Margin = new System.Windows.Forms.Padding(4);
             this.btnPartidas.Name = "btnPartidas";
             this.btnPartidas.Size = new System.Drawing.Size(203, 53);
             this.btnPartidas.TabIndex = 0;
@@ -112,7 +112,7 @@
             // btnCriarPartida
             // 
             this.btnCriarPartida.Location = new System.Drawing.Point(195, 110);
-            this.btnCriarPartida.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCriarPartida.Margin = new System.Windows.Forms.Padding(4);
             this.btnCriarPartida.Name = "btnCriarPartida";
             this.btnCriarPartida.Size = new System.Drawing.Size(80, 28);
             this.btnCriarPartida.TabIndex = 11;
@@ -160,6 +160,7 @@
             this.label7.Size = new System.Drawing.Size(23, 16);
             this.label7.TabIndex = 18;
             this.label7.Text = "ID:";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label8
             // 
@@ -174,7 +175,7 @@
             // btnEntrar
             // 
             this.btnEntrar.Location = new System.Drawing.Point(196, 71);
-            this.btnEntrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEntrar.Margin = new System.Windows.Forms.Padding(4);
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Size = new System.Drawing.Size(81, 28);
             this.btnEntrar.TabIndex = 20;
@@ -215,7 +216,7 @@
             // txtNome
             // 
             this.txtNome.Location = new System.Drawing.Point(65, 25);
-            this.txtNome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNome.Margin = new System.Windows.Forms.Padding(4);
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(208, 22);
             this.txtNome.TabIndex = 30;
@@ -223,7 +224,7 @@
             // txtSenha
             // 
             this.txtSenha.Location = new System.Drawing.Point(65, 65);
-            this.txtSenha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSenha.Margin = new System.Windows.Forms.Padding(4);
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.Size = new System.Drawing.Size(208, 22);
             this.txtSenha.TabIndex = 31;
@@ -231,15 +232,16 @@
             // txtID
             // 
             this.txtID.Location = new System.Drawing.Point(67, 33);
-            this.txtID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtID.Margin = new System.Windows.Forms.Padding(4);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(120, 22);
             this.txtID.TabIndex = 32;
+            this.txtID.TextChanged += new System.EventHandler(this.txtID_TextChanged);
             // 
             // txtJogador
             // 
             this.txtJogador.Location = new System.Drawing.Point(67, 68);
-            this.txtJogador.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtJogador.Margin = new System.Windows.Forms.Padding(4);
             this.txtJogador.Name = "txtJogador";
             this.txtJogador.Size = new System.Drawing.Size(120, 22);
             this.txtJogador.TabIndex = 33;
@@ -247,7 +249,7 @@
             // txtSenhaPartida
             // 
             this.txtSenhaPartida.Location = new System.Drawing.Point(67, 117);
-            this.txtSenhaPartida.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSenhaPartida.Margin = new System.Windows.Forms.Padding(4);
             this.txtSenhaPartida.Name = "txtSenhaPartida";
             this.txtSenhaPartida.Size = new System.Drawing.Size(120, 22);
             this.txtSenhaPartida.TabIndex = 34;
@@ -264,7 +266,7 @@
             // btnIniciar
             // 
             this.btnIniciar.Location = new System.Drawing.Point(269, 42);
-            this.btnIniciar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnIniciar.Margin = new System.Windows.Forms.Padding(4);
             this.btnIniciar.Name = "btnIniciar";
             this.btnIniciar.Size = new System.Drawing.Size(161, 55);
             this.btnIniciar.TabIndex = 37;
@@ -293,9 +295,9 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(8, 48);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(288, 162);
             this.groupBox1.TabIndex = 39;
             this.groupBox1.TabStop = false;
@@ -311,9 +313,9 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Location = new System.Drawing.Point(8, 218);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(288, 186);
             this.groupBox2.TabIndex = 40;
             this.groupBox2.TabStop = false;
@@ -325,9 +327,9 @@
             this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.btnPartidas);
             this.groupBox3.Location = new System.Drawing.Point(304, 47);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(423, 358);
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
@@ -339,9 +341,9 @@
             this.groupBox5.Controls.Add(this.dgvListarJogadores);
             this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Location = new System.Drawing.Point(0, 171);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox5.Size = new System.Drawing.Size(423, 187);
             this.groupBox5.TabIndex = 43;
             this.groupBox5.TabStop = false;
@@ -350,7 +352,7 @@
             // btnAtualizar
             // 
             this.btnAtualizar.Location = new System.Drawing.Point(155, 145);
-            this.btnAtualizar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAtualizar.Margin = new System.Windows.Forms.Padding(4);
             this.btnAtualizar.Name = "btnAtualizar";
             this.btnAtualizar.Size = new System.Drawing.Size(129, 34);
             this.btnAtualizar.TabIndex = 45;
@@ -362,7 +364,7 @@
             // 
             this.dgvListarJogadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvListarJogadores.Location = new System.Drawing.Point(4, 20);
-            this.dgvListarJogadores.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvListarJogadores.Margin = new System.Windows.Forms.Padding(4);
             this.dgvListarJogadores.Name = "dgvListarJogadores";
             this.dgvListarJogadores.RowHeadersWidth = 51;
             this.dgvListarJogadores.Size = new System.Drawing.Size(419, 124);
@@ -385,9 +387,9 @@
             this.groupBox4.Controls.Add(this.lblID);
             this.groupBox4.Controls.Add(this.lblSenha);
             this.groupBox4.Location = new System.Drawing.Point(749, 48);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox4.Size = new System.Drawing.Size(471, 357);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
@@ -405,9 +407,9 @@
             this.groupBox6.Controls.Add(this.label12);
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Location = new System.Drawing.Point(1, 122);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox6.Size = new System.Drawing.Size(469, 234);
             this.groupBox6.TabIndex = 44;
             this.groupBox6.TabStop = false;
@@ -514,7 +516,7 @@
             // btnVoltar
             // 
             this.btnVoltar.Location = new System.Drawing.Point(565, 434);
-            this.btnVoltar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnVoltar.Margin = new System.Windows.Forms.Padding(4);
             this.btnVoltar.Name = "btnVoltar";
             this.btnVoltar.Size = new System.Drawing.Size(129, 52);
             this.btnVoltar.TabIndex = 43;
@@ -534,7 +536,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblDraftosaurus);
             this.Controls.Add(this.lblVersao);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(1262, 536);
             this.Name = "Lobby";
             this.Text = "Lobby";

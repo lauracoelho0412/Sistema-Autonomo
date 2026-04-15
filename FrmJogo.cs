@@ -12,18 +12,25 @@ using static System.Resources.ResXFileRef;
 
 namespace Sistema_Autonomo_Predadores
 {
+
+    //----JA AQUI---
+    // MOSTRAR O TABULEIRO
+    //MOSTRAR OS DINOS
+    //MOSTRAR HUD (TURNO, DADO, JOGADOR, MAO)
     public partial class FrmJogo : Form
     {
-
         private string maoAtual;
         public FrmJogo()
         {
             InitializeComponent();
         }
 
+
+
+
+        //tira o fundo branco dos panel INDIVIDUAL
         private void FrmJogo_Load(object sender, EventArgs e)
         {
-            //tira o fundo branco dos panel
             panelFI.Parent = pbTabuleiro;
             panelFI.BackColor = Color.Transparent;
 
@@ -46,15 +53,10 @@ namespace Sistema_Autonomo_Predadores
             this.DoubleBuffered = true; // evita flicker
           this.Refresh();
 
-
-
-        }
-        public void ReceberJogada(string dino, string cercado)
-        {
-            AdicionarDino(dino, cercado);
         }
 
-        //HUD
+
+        //ATUALIZA A PRIMEIRA ENTRADA DO JOGO
         public void AtualizarInfoTurno(string jogador, string dado, int turno, string mao)
         {
             lblJogadorDado.Text = "Jogador: " + jogador;
@@ -65,6 +67,15 @@ namespace Sistema_Autonomo_Predadores
             maoAtual = mao; // salva a mão
         }
 
+
+        //RECEBE
+        public void ReceberJogada(string dino, string cercado)
+        {
+            AdicionarDino(dino, cercado);
+        }
+
+
+        //PRINCIPAL - ADICIONAR
         private void AdicionarDino(string nomeDino, string cercado)
         {
             PictureBox pb = new PictureBox();
@@ -82,7 +93,7 @@ namespace Sistema_Autonomo_Predadores
             pb.Height = tamanhoDino;
 
 
-            // Define a imagem do dino
+            //  dino
             nomeDino = nomeDino.ToUpper();
             switch (nomeDino)
             {
@@ -95,7 +106,7 @@ namespace Sistema_Autonomo_Predadores
                     return;
             }
 
-
+            //CERCADO
             Panel destino = null;
             switch (cercado.ToUpper())
             {
@@ -122,10 +133,13 @@ namespace Sistema_Autonomo_Predadores
                 case "RS": numSlots = 4; break;
             }
 
+            //////- ESSA PARTE NAO ESTA 100% AINDA
+           
+
             // Calcula posições centralizadas para cada slot
             Point[] posicoes = new Point[numSlots];
             int y = 10; // linha constante
-            int slotWidth = destino.Width / numSlots;
+            int slotWidth = destino.Width / numSlots; // ISSO DEVIDE O CERCADO EM PARTES IGUAIS
 
             for (int i = 0; i < numSlots; i++)
             {
@@ -145,6 +159,9 @@ namespace Sistema_Autonomo_Predadores
             pb.Left = posicoes[index].X;
             pb.Top = posicoes[index].Y;
 
+
+            ////////
+            
             // Adiciona ao painel
             destino.Controls.Add(pb);
             destino.Refresh();
@@ -155,22 +172,19 @@ namespace Sistema_Autonomo_Predadores
         private void pbTabuleiro_Click(object sender, EventArgs e)
         {
         }
-
         private void panelIS_Paint(object sender, PaintEventArgs e)
         {
-
         }
-
         private void panelFI_Paint(object sender, PaintEventArgs e)
         {
-
         }
-
         private void lblTurno_Click(object sender, EventArgs e)
         {
-
         }
 
+
+
+        //BUTTON JOGAR
         private void btnJogarManual_Click(object sender, EventArgs e)
         {
             string dino = cmbDino.SelectedItem?.ToString();
