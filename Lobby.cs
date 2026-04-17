@@ -13,12 +13,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sistema_Autonomo_Predadores
 { 
-
-    // ------AQUI TEM ------
-    // CRIAR PARTIDA
-    //ENTRAR NA PARTIDA
-    //INICIAR O JOGO
-    //MOSTRAR JOGADORES
     public partial class Lobby : Form
     {
         // ── Estado interno do Lobby ──────────────────────────────────────────
@@ -28,8 +22,6 @@ namespace Sistema_Autonomo_Predadores
         private Turno _turno;
         private Dinossauro _dinossauro;
 
-
-        private Partida partidaAtual;
 
 
         public Lobby()
@@ -101,43 +93,8 @@ namespace Sistema_Autonomo_Predadores
                 txtID.Text = retorno;
                 txtSenhaPartida.Text = txtSenha.Text;
 
-                // ENTRA AUTOMATICAMENTE NA PARTIDA
-                string retornoEntrar = Jogo.Entrar(
-                    _partida.Id,
-                    lblNome.Text,
-                    txtSenha.Text
-                );
-
-                if (retornoEntrar.Contains(","))
-                {
-                    string[] info = retornoEntrar.Split(',');
-
-
-                    _jogador = new Jogador();
-                    _jogador.Id = Convert.ToInt32(info[0]);
-                    _jogador.Nome = lblNome.Text;
-                    _jogador.Senha = info[1];
-                    txtJogador.Text = _jogador.Nome;
-
-                    lblID.Text = $"ID {_jogador.Nome}: {_jogador.Id}";
-                    lblSenha.Text = $"Senha {_jogador.Nome}: {_jogador.Senha}";
-
-                    // Atualiza tabela com dados do servidor
-                    AtualizarTabela();
-
-                    MessageBox.Show("Partida criada e jogador entrou automaticamente!");
-                }
-                else
-                {
-                    MessageBox.Show(retornoEntrar);
-                }
-
             }
         }
-        
-
-
-
 
         private void btnEntrar_Click(object sender, EventArgs e)
         {
@@ -172,7 +129,9 @@ namespace Sistema_Autonomo_Predadores
 
               
                 // ATUALIZA DO SERVIDOR TAMBÉM
-                dgvListarJogadores.DataSource = Jogador.ListarJogadores(_partida.Id);
+                _turno.listaJogadores = Jogador.ListarJogadores(_partida.Id);
+
+                dgvListarJogadores.DataSource = _turno.listaJogadores;
 
                 MessageBox.Show(
                     $"{_jogador.Nome} entrou na partida",
@@ -199,6 +158,7 @@ namespace Sistema_Autonomo_Predadores
         Envia os dados pra tela*/
         private void btnIniciar_Click(object sender, EventArgs e)
         {
+            string retorno = Jogo.Iniciar(_jogador.Id, _jogador.Senha);
 
             if (_jogador == null || _jogador.Id == 0)
             {
@@ -211,44 +171,45 @@ namespace Sistema_Autonomo_Predadores
                 MessageBox.Show("Crie ou selecione uma partida!");
                 return;
             }
-            string retorno = Jogo.Iniciar(_jogador.Id, _jogador.Senha);
 
             if (retorno.Contains("ERRO"))
             {
                 MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            // Extrai o ID do jogador que rolou o dado e o resultado do dado
-            string[] dadoInfo = retorno.Split(',');
-            _turno.IdJogadorDado = Convert.ToInt32(dadoInfo[0]);
-            _turno.Dado = dadoInfo[1];
+            else
+            {
+                // Extrai o ID do jogador que rolou o dado e o resultado do dado
+                string[] dadoInfo = retorno.Split(',');
+                _turno.IdJogadorDado = Convert.ToInt32(dadoInfo[0]);
+                _turno.Dado = dadoInfo[1];
 
-            // Busca a mão de dinossauros do jogador e determina o número do turno
-            string mao = Jogo.ExibirMao(_jogador.Id, _jogador.Senha);
+                // Busca a mão de dinossauros do jogador e determina o número do turno
+                string mao = Jogo.ExibirMao(_jogador.Id, _jogador.Senha);
+                List<Dinossauro> listaDinossauros = new List<Dinossauro>();
+                listaDinossauros = Dinossauro.ListarDinossauros(mao);
 
-            // O número do turno está no primeiro campo da mão formatada
-            string maoFormatada = mao.Replace("\n", ",");
-            string[] camposMao = maoFormatada.Split(',');
-            _turno.TurnoAtual = Convert.ToInt32(camposMao[0]);
+                // O número do turno está no primeiro campo da mão formatada
+                string maoFormatada = mao.Replace("\n", ",");
+                string[] camposMao = maoFormatada.Split(',');
+                _turno.TurnoAtual = Convert.ToInt32(camposMao[0]);
 
-            // Atualiza os labels de dado, jogador e dinossauros na interface
-            lblDado.Text = _turno.Dado;
-            lblJDado.Text = _jogador.Nome;
-            lblDino.Text = mao;
+                // SÓ AGORA ABRE O JOGO teste TROCAR NOME PRA TABULEIRO
+                telaJogo = new FrmJogo();
+                telaJogo.Show();
 
-            RealizarJogada(Dinossauro.ListarDinossauros(mao), _turno.Dado);
+                telaJogo.AtualizarInfoTurno(
+                    _jogador.Nome,
+                    _jogador.Id,
+                    _jogador.Senha,
+                    _turno.IdJogadorDado,
+                    _turno.Dado,
+                    _turno.TurnoAtual,
+                    listaDinossauros,
+                    _turno.listaJogadores
+                );
 
-            // SÓ AGORA ABRE O JOGO teste TROCAR NOME PRA TABULEIRO
-            telaJogo = new FrmJogo();
-            telaJogo.Show();
-
-            telaJogo.AtualizarInfoTurno(
-                lblJDado.Text,
-                _turno.Dado,
-                _turno.TurnoAtual,
-                mao
-            );
-
+            }
         }
 
 
@@ -279,7 +240,7 @@ namespace Sistema_Autonomo_Predadores
 
 
         //JOGADA AUTOMATICA 'PRA DEPOIS'
-        private string RealizarJogada(List<Dinossauro> mao, string dado)
+       /* private string RealizarJogada(List<Dinossauro> mao, string dado)
         {
             // Verifica se há dinossauros disponíveis antes de tentar jogar
             if (mao == null || mao.Count == 0)
@@ -291,12 +252,9 @@ namespace Sistema_Autonomo_Predadores
             // Delega a decisão ao sistema autônomo, que avalia o tabuleiro e escolhe a melhor jogada
             var jogada = Decisao.EscolherJogada(mao, dado);
 
-            // Fazer campo de lógica para jogada, criar novo arquivo para isso, ou criar classe de sistema autônomo
-            string codigoDino = "";
-            string codigoCercado = "";
+            string codigoDino = jogada.Item1;
+            string codigoCercado = jogada.Item2;
 
-            codigoDino = jogada.Item1;
-            codigoCercado = jogada.Item2;
             if (telaJogo != null)
             {
                 telaJogo.ReceberJogada(codigoDino, codigoCercado);
@@ -328,7 +286,7 @@ namespace Sistema_Autonomo_Predadores
 
             return resposta;
         }
-
+       */
         private void AtualizarTabela()
         {
             dgvListarJogadores.DataSource = Jogador.ListarJogadores(_partida.Id);

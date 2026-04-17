@@ -10,7 +10,7 @@ namespace Sistema_Autonomo_Predadores
     {
         public int TurnoAtual { get; set; }
         public int IdJogadorDado { get; set; }
-        public int IdJogadorJogada { get; set; }
+        public List<Jogador> listaJogadores { get; set; }
         public string Dado { get; set; }
         public string Status { get; set; }
     }

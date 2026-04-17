@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Draft;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Mail;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +21,15 @@ namespace Sistema_Autonomo_Predadores
     //MOSTRAR HUD (TURNO, DADO, JOGADOR, MAO)
     public partial class FrmJogo : Form
     {
-        private string maoAtual;
+        private List<Dinossauro> maoAtual;
+        private Turno _turno;
+        private Jogador _jogador;
+
         public FrmJogo()
         {
             InitializeComponent();
+            _turno = new Turno();
+            _jogador = new Jogador();
         }
 
 
@@ -31,76 +38,112 @@ namespace Sistema_Autonomo_Predadores
         //tira o fundo branco dos panel INDIVIDUAL
         private void FrmJogo_Load(object sender, EventArgs e)
         {
-            panelFI.Parent = pbTabuleiro;
+            panelFI.Parent = panelTabu;
             panelFI.BackColor = Color.Transparent;
 
-            panelPA.Parent = pbTabuleiro;
-            panelPA.BackColor = Color.Transparent;
-
-            panelIS.Parent = pbTabuleiro;
-            panelIS.BackColor = Color.Transparent;
-
-            panelMT.Parent = pbTabuleiro;
-            panelMT.BackColor = Color.Transparent;
-
-            panelCD.Parent = pbTabuleiro;
+            panelCD.Parent = panelTabu;
             panelCD.BackColor = Color.Transparent;
 
-            panelRS.Parent = pbTabuleiro;
+            panelRI.Parent = panelTabu;
+            panelRI.BackColor = Color.Transparent;
+
+            panelMT.Parent = panelTabu;
+            panelMT.BackColor = Color.Transparent;
+
+            panelPA.Parent = panelTabu;
+            panelPA.BackColor = Color.Transparent;
+
+            panelIS.Parent = panelTabu;
+            panelIS.BackColor = Color.Transparent;
+
+            panelRS.Parent = panelTabu;
             panelRS.BackColor = Color.Transparent;
 
 
             this.DoubleBuffered = true; // evita flicker
           this.Refresh();
 
-        }
+        }   
 
 
         //ATUALIZA A PRIMEIRA ENTRADA DO JOGO
-        public void AtualizarInfoTurno(string jogador, string dado, int turno, string mao)
+        public void AtualizarInfoTurno(string jogador, int jogadorID, string senha, int jogadorDado, string dado, int turno, List<Dinossauro> listaDino, List<Jogador> listaJoga)
         {
             lblJogadorDado.Text = "Jogador: " + jogador;
             lblDado.Text = "Dado: " + dado;
             lblTurno.Text = "Turno: " + turno;
-            lblMao.Text = "Mão: " + mao;
+            lblMao.Text = "Mão: \n" + string.Join("\n", listaDino.Select(d => $"{d.Nome} - Qtd:{d.Quantidade}")); ;
+            _turno.Dado = dado;
+            _turno.TurnoAtual = turno;
+            _turno.IdJogadorDado = jogadorDado;
+            _turno.listaJogadores = listaJoga;
 
-            maoAtual = mao; // salva a mão
+            foreach (Jogador j in listaJoga)
+            {
+                if (j.Id == jogadorDado)
+                {
+                    lblJDado.Text = "Jogador com dado:" + j.Nome;
+                    break;
+                }
+            }
+
+            _jogador.Nome = jogador;
+            _jogador.Senha = senha;
+            _jogador.Id = jogadorID;
+
+            maoAtual = listaDino; // salva a mão
         }
 
 
         //RECEBE
-        public void ReceberJogada(string dino, string cercado)
+        /*public void ReceberJogada(string dino, string cercado)
         {
             AdicionarDino(dino, cercado);
         }
-
+        */
 
         //PRINCIPAL - ADICIONAR
+        private Dictionary<string, List<Dinossauro>> cercados = new Dictionary<string, List<Dinossauro>>()
+        {
+             { "FI", new List<Dinossauro>() },
+             { "PA", new List<Dinossauro>() },
+             { "IS", new List<Dinossauro>() },
+             { "MT", new List<Dinossauro>() },
+             { "CD", new List<Dinossauro>() },
+             { "RS", new List<Dinossauro>() },
+             { "RI", new List<Dinossauro>() }
+        };
         private void AdicionarDino(string nomeDino, string cercado)
         {
+           string retorno = Jogo.Jogar(_jogador.Id, _jogador.Senha, nomeDino, cercado);
+            if (retorno.Contains("ERRO"))
+            {
+                MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                _turno.TurnoAtual = Convert.ToInt32(retorno);
+            }
+
             PictureBox pb = new PictureBox();
             pb.SizeMode = PictureBoxSizeMode.Zoom;
 
 
             // Declare a variável dinoSize ANTES de usar
-            int dinoSize = 50; // tamanho fixo do dino, esta muito pequeno tem q ajustar isso 
+            int dinoSize = 80; 
             pb.Width = dinoSize;
             pb.Height = dinoSize;
 
-            // Configura o tamanho fixo para todos
-            int tamanhoDino = 50;
-            pb.Width = tamanhoDino;
-            pb.Height = tamanhoDino;
-
 
             //  dino
-            nomeDino = nomeDino.ToUpper();
             switch (nomeDino)
             {
-                case "BR": pb.Image = Properties.Resources.dinoverde; break;
-                case "AZ": pb.Image = Properties.Resources.dinoazul; break;
-                case "AM": pb.Image = Properties.Resources.dinoamarelo; break;
-                case "EP": pb.Image = Properties.Resources.dinorosa; break;
+                case "Br": pb.Image = Properties.Resources.dinoverde; break;
+                case "Pa": pb.Image = Properties.Resources.dinoverde; break;
+                case "Et": pb.Image = Properties.Resources.dinoazul; break;
+                case "Ep": pb.Image = Properties.Resources.dinolaranja; break;
+                case "Ti": pb.Image = Properties.Resources.dinolaranja; break;
+                case "Tr": pb.Image = Properties.Resources.dinoamarelo; break;
                 default:
                     MessageBox.Show("Dino inválido");
                     return;
@@ -116,9 +159,11 @@ namespace Sistema_Autonomo_Predadores
                 case "MT": destino = panelMT; break;
                 case "CD": destino = panelCD; break;
                 case "RS": destino = panelRS; break;
-                default: destino = null; break;
+                case "RI": destino = panelRI; break;
+                default:
                     MessageBox.Show("Cercado inválido! Use FI, PA, IS, MT, CD ou RS");
-                    return;
+                        break;
+
             }
 
             // Número de slots por cercado
@@ -126,20 +171,20 @@ namespace Sistema_Autonomo_Predadores
             switch (cercado.ToUpper())
             {
                 case "FI": numSlots = 6; break;
-                case "PA": numSlots = 5; break;
-                case "IS": numSlots = 5; break;
-                case "MT": numSlots = 4; break;
-                case "CD": numSlots = 3; break;
-                case "RS": numSlots = 4; break;
+                case "PA": numSlots = 6; break;
+                case "IS": numSlots = 1; break;
+                case "MT": numSlots = 3; break;
+                case "CD": numSlots = 6; break;
+                case "RS": numSlots = 1; break;
+                case "RI": numSlots = 6; break;
             }
 
-            //////- ESSA PARTE NAO ESTA 100% AINDA
            
 
             // Calcula posições centralizadas para cada slot
             Point[] posicoes = new Point[numSlots];
             int y = 10; // linha constante
-            int slotWidth = destino.Width / numSlots; // ISSO DEVIDE O CERCADO EM PARTES IGUAIS
+            int slotWidth = Math.Max(dinoSize + 10, destino.Width / numSlots);
 
             for (int i = 0; i < numSlots; i++)
             {
@@ -159,30 +204,24 @@ namespace Sistema_Autonomo_Predadores
             pb.Left = posicoes[index].X;
             pb.Top = posicoes[index].Y;
 
+            var lista = cercados[cercado.ToUpper()];
+            var existente = lista.FirstOrDefault(d => d.Nome == nomeDino);
 
-            ////////
-            
+            if (existente != null)
+            {
+                existente.Quantidade += 1; // já atualiza direto pois é referência
+            }
+            else
+            {
+                lista.Add(new Dinossauro { Nome = nomeDino, Quantidade = 1 });
+            }
+
             // Adiciona ao painel
             destino.Controls.Add(pb);
             destino.Refresh();
 
 
         }
-
-        private void pbTabuleiro_Click(object sender, EventArgs e)
-        {
-        }
-        private void panelIS_Paint(object sender, PaintEventArgs e)
-        {
-        }
-        private void panelFI_Paint(object sender, PaintEventArgs e)
-        {
-        }
-        private void lblTurno_Click(object sender, EventArgs e)
-        {
-        }
-
-
 
         //BUTTON JOGAR
         private void btnJogarManual_Click(object sender, EventArgs e)
@@ -197,14 +236,47 @@ namespace Sistema_Autonomo_Predadores
                 return;
             }
 
+            bool podeAdd = false;
 
-            AdicionarDino(dino, cercado);
-            //  REMOVE DA MÃO
-            maoAtual = maoAtual.Replace(dino + ",1", "");
+            if(maoAtual.Any(d => d.Nome == dino))
+            {
+                switch (_turno.Dado)
+                {
+                    case "AL": if (cercado.ToUpper() == "FI" && !cercados["FI"].Any(d => d.Nome == dino) || cercado.ToUpper() == "FI" && cercados["FI"].Count == 0 || cercado == "MT" || cercado == "PA") podeAdd = true; break;
+                    case "FL": if (cercado.ToUpper() == "FI" && cercados["FI"].Any(d => d.Nome == dino) || cercado.ToUpper() == "FI" && cercados["FI"].Count == 0 || cercado == "MT" || cercado == "RS") podeAdd = true; break;
+                    case "PR": if (cercado.ToUpper() == "CD" && cercados["CD"].Any(d => d.Nome == dino) || cercado.ToUpper() == "CD" && cercados["CD"].Count == 0 || cercado == "PA" || cercado == "IS") podeAdd = true; break;
+                    case "TI": if (!cercados[cercado].Any(d => d.Nome == "Ti"))podeAdd = true; break;
+                    case "VZ": if(cercados[cercado].Count == 0) podeAdd = true; break;
+                    case "WC": if (cercado.ToUpper() == "CD" && cercados["CD"].Any(d => d.Nome == dino) || cercado.ToUpper() == "CD" && cercados["CD"].Count == 0 || cercado == "RS" || cercado == "IS") podeAdd = true; break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Você não tem esse dino na mão!");
+                return;
+            }
 
-            lblMao.Text = "Mão:\n" + maoAtual;
+            if (podeAdd)
+            {
+                AdicionarDino(dino, cercado);
+            }
+            else
+            {
+                MessageBox.Show("Jogada inválida! Verifique o dado e os cercados permitidos.");
+                return;
+            }
+
+                //  REMOVE DA MÃO
+            var dinoUsado = maoAtual.FirstOrDefault(d => d.Nome == dino);
+            if (dinoUsado != null)
+            {
+                dinoUsado.Quantidade -= 1;
+                if (dinoUsado.Quantidade <= 0)
+                    maoAtual.Remove(dinoUsado);
+            }
+
+            lblMao.Text = "Mão:\n" + string.Join("\n", maoAtual.Select(d => $"{d.Nome} - Qtd:{d.Quantidade}")); ;
         }
 
-       
     }
 }

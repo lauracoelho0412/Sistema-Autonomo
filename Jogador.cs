@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_Autonomo_Predadores
 {
-    internal class Jogador
+    public class Jogador
     {
         public int Id { get; set; }
         public string Nome { get; set; }

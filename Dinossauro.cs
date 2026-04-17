@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_Autonomo_Predadores
 {
-    internal class Dinossauro
+    public class Dinossauro
     {
         public string Nome { get; set; }
 
