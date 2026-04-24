@@ -14,28 +14,21 @@ using static System.Resources.ResXFileRef;
 
 namespace Sistema_Autonomo_Predadores
 {
-
-    //----JA AQUI---
-    // MOSTRAR O TABULEIRO
-    //MOSTRAR OS DINOS
-    //MOSTRAR HUD (TURNO, DADO, JOGADOR, MAO)
     public partial class FrmJogo : Form
     {
         private List<Dinossauro> maoAtual;
         private Turno _turno;
         private Jogador _jogador;
+        private Partida _partida;
 
         public FrmJogo()
         {
             InitializeComponent();
             _turno = new Turno();
             _jogador = new Jogador();
+            _partida = new Partida();
         }
 
-
-
-
-        //tira o fundo branco dos panel INDIVIDUAL
         private void FrmJogo_Load(object sender, EventArgs e)
         {
             panelFI.Parent = panelTabu;
@@ -67,40 +60,66 @@ namespace Sistema_Autonomo_Predadores
 
 
         //ATUALIZA A PRIMEIRA ENTRADA DO JOGO
-        public void AtualizarInfoTurno(string jogador, int jogadorID, string senha, int jogadorDado, string dado, int turno, List<Dinossauro> listaDino, List<Jogador> listaJoga)
+        public void AtualizarInfoTurno(string jogador, int jogadorID, string senha, int partidaID)
         {
-            lblJogadorDado.Text = "Jogador: " + jogador;
-            lblDado.Text = "Dado: " + dado;
-            lblTurno.Text = "Turno: " + turno;
-            lblMao.Text = "Mão: \n" + string.Join("\n", listaDino.Select(d => $"{d.Nome} - Qtd:{d.Quantidade}")); ;
-            _turno.Dado = dado;
-            _turno.TurnoAtual = turno;
-            _turno.IdJogadorDado = jogadorDado;
-            _turno.listaJogadores = listaJoga;
-
-            foreach (Jogador j in listaJoga)
-            {
-                if (j.Id == jogadorDado)
-                {
-                    lblJDado.Text = "Jogador com dado:" + j.Nome;
-                    break;
-                }
-            }
-
             _jogador.Nome = jogador;
             _jogador.Senha = senha;
             _jogador.Id = jogadorID;
+            _partida.Id = partidaID;
 
-            maoAtual = listaDino; // salva a mão
+            lblJogador.Text = "Jogador: " + jogador;
+
+            string retorno = Jogo.VerificarPartida(_partida.Id);
+            if (retorno.Contains("ERRO"))
+            {
+                MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                string[] infoPartida = retorno.Split(',');
+                _partida.Status = infoPartida[0];
+                _turno.TurnoAtual = Convert.ToInt32(infoPartida[1]);
+                _turno.Status = infoPartida[2];
+                _turno.IdJogadorDado = Convert.ToInt32(infoPartida[3]);
+                _turno.Dado = infoPartida[4];
+            }
+
+            lblDado.Text = "Dado: " + _turno.Dado;
+            lblTurno.Text = "Turno: " + _turno.TurnoAtual;
+            lblJogadorDado.Text = "Jogador com o dado: " + ObterNomeJogadorDado(_partida.Id);
+            List<Dinossauro> listaDino = ObterMaoJogador();
+            lblMao.Text = "Mão: \n" + string.Join("\n", listaDino.Select(d => $"{d.Nome} - Qtd:{d.Quantidade}")); ;
+
         }
-
-
-        //RECEBE
-        /*public void ReceberJogada(string dino, string cercado)
+        private string ObterNomeJogadorDado(int idPartida)
         {
-            AdicionarDino(dino, cercado);
+            List<Jogador> jogadores = Jogador.ListarJogadores(idPartida);
+
+            foreach (Jogador jogador in jogadores)
+            {
+                if (jogador.Id == _turno.IdJogadorDado)
+                    return jogador.Nome;
+            }
+
+            return "Jogador não encontrado!";
         }
-        */
+
+        private List<Dinossauro> ObterMaoJogador()
+        {
+            string retorno = Jogo.ExibirMao(_jogador.Id, _jogador.Senha);
+            if (retorno.Contains("ERRO"))
+            {
+                MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return new List<Dinossauro>();
+            }
+            else
+            {
+                List<Dinossauro> mao = Dinossauro.ListarDinossauros(retorno);
+                return mao;
+            }
+        }
+
 
         //PRINCIPAL - ADICIONAR
         private Dictionary<string, List<Dinossauro>> cercados = new Dictionary<string, List<Dinossauro>>()
@@ -115,55 +134,11 @@ namespace Sistema_Autonomo_Predadores
         };
         private void AdicionarDino(string nomeDino, string cercado)
         {
-           string retorno = Jogo.Jogar(_jogador.Id, _jogador.Senha, nomeDino, cercado);
+            string retorno = Jogo.Jogar(_jogador.Id, _jogador.Senha, nomeDino, cercado);
             if (retorno.Contains("ERRO"))
             {
                 MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                _turno.TurnoAtual = Convert.ToInt32(retorno);
-            }
-
-            PictureBox pb = new PictureBox();
-            pb.SizeMode = PictureBoxSizeMode.Zoom;
-
-
-            // Declare a variável dinoSize ANTES de usar
-            int dinoSize = 80; 
-            pb.Width = dinoSize;
-            pb.Height = dinoSize;
-
-
-            //  dino
-            switch (nomeDino)
-            {
-                case "Br": pb.Image = Properties.Resources.dinoverde; break;
-                case "Pa": pb.Image = Properties.Resources.dinoverde; break;
-                case "Et": pb.Image = Properties.Resources.dinoazul; break;
-                case "Ep": pb.Image = Properties.Resources.dinolaranja; break;
-                case "Ti": pb.Image = Properties.Resources.dinolaranja; break;
-                case "Tr": pb.Image = Properties.Resources.dinoamarelo; break;
-                default:
-                    MessageBox.Show("Dino inválido");
-                    return;
-            }
-
-            //CERCADO
-            Panel destino = null;
-            switch (cercado.ToUpper())
-            {
-                case "FI": destino = panelFI; break;
-                case "PA": destino = panelPA; break;
-                case "IS": destino = panelIS; break;
-                case "MT": destino = panelMT; break;
-                case "CD": destino = panelCD; break;
-                case "RS": destino = panelRS; break;
-                case "RI": destino = panelRI; break;
-                default:
-                    MessageBox.Show("Cercado inválido! Use FI, PA, IS, MT, CD ou RS");
-                        break;
-
+                return;
             }
 
             // Número de slots por cercado
@@ -179,48 +154,88 @@ namespace Sistema_Autonomo_Predadores
                 case "RI": numSlots = 6; break;
             }
 
-           
-
-            // Calcula posições centralizadas para cada slot
-            Point[] posicoes = new Point[numSlots];
-            int y = 10; // linha constante
-            int slotWidth = Math.Max(dinoSize + 10, destino.Width / numSlots);
-
-            for (int i = 0; i < numSlots; i++)
+            // CERCADO destino
+            Panel destino = null;
+            switch (cercado.ToUpper())
             {
-                int x = i * slotWidth + (slotWidth - dinoSize) / 2;
-                posicoes[i] = new Point(x, y);
+                case "FI": destino = panelFI; break;
+                case "PA": destino = panelPA; break;
+                case "IS": destino = panelIS; break;
+                case "MT": destino = panelMT; break;
+                case "CD": destino = panelCD; break;
+                case "RS": destino = panelRS; break;
+                case "RI": destino = panelRI; break;
+                default:
+                    MessageBox.Show("Cercado inválido!");
+                    return;
             }
 
-            // Verifica se ainda cabe mais dinos
-            int index = destino.Controls.Count;
-            if (index >= posicoes.Length)
+            // Conta apenas PictureBoxes já adicionados (ignora outros controls)
+            int dinosNoPanel = destino.Controls.OfType<PictureBox>().Count();
+
+            if (dinosNoPanel >= numSlots)
             {
                 MessageBox.Show("Cercado cheio!");
                 return;
             }
 
-            // Coloca o dino na posição correta
-            pb.Left = posicoes[index].X;
-            pb.Top = posicoes[index].Y;
+            // Tamanho do dino baseado no panel — ocupa bem o espaço disponível
+            int colunas = numSlots;
+            int linhas = 1;
 
+            // Se tiver 6 slots, usa 2 linhas de 3 para ficar melhor visualmente
+            if (numSlots == 6)
+            {
+                colunas = 3;
+                linhas = 2;
+            }
+
+            int padding = 4;
+            int dinoW = (destino.Width - padding * (colunas + 1)) / colunas;
+            int dinoH = (destino.Height - padding * (linhas + 1)) / linhas;
+            int dinoSize = Math.Min(dinoW, dinoH); // quadrado, mantém proporção
+
+            // Calcula posição (linha/coluna) baseado em quantos já existem
+            int col = dinosNoPanel % colunas;
+            int row = dinosNoPanel / colunas;
+
+            int x = padding + col * (dinoSize + padding);
+            int y = padding + row * (dinoSize + padding);
+
+            // Cria o PictureBox
+            PictureBox pb = new PictureBox();
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+            pb.Width = dinoSize;
+            pb.Height = dinoSize;
+            pb.Left = x;
+            pb.Top = y;
+            pb.BackColor = Color.Transparent;
+
+            // Imagem do dino
+            switch (nomeDino)
+            {
+                case "Br": pb.Image = Properties.Resources.dinoverde; break;
+                case "Pa": pb.Image = Properties.Resources.dinoverde; break;
+                case "Et": pb.Image = Properties.Resources.dinoazul; break;
+                case "Ep": pb.Image = Properties.Resources.dinolaranja; break;
+                case "Ti": pb.Image = Properties.Resources.dinolaranja; break;
+                case "Tr": pb.Image = Properties.Resources.dinoamarelo; break;
+                default:
+                    MessageBox.Show("Dino inválido!");
+                    return;
+            }
+
+            // Atualiza dicionário de controle
             var lista = cercados[cercado.ToUpper()];
             var existente = lista.FirstOrDefault(d => d.Nome == nomeDino);
-
             if (existente != null)
-            {
-                existente.Quantidade += 1; // já atualiza direto pois é referência
-            }
+                existente.Quantidade += 1;
             else
-            {
                 lista.Add(new Dinossauro { Nome = nomeDino, Quantidade = 1 });
-            }
 
-            // Adiciona ao painel
             destino.Controls.Add(pb);
+            pb.BringToFront();
             destino.Refresh();
-
-
         }
 
         //BUTTON JOGAR

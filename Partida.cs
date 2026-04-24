@@ -13,23 +13,19 @@ namespace Sistema_Autonomo_Predadores
         public string Name { get; set; }
         public DateTime Data { get; set; }
         public string Status { get; set; }
-        internal Turno TurnoAtual { get; set; }
+        public string Senha { get; set; }
 
         public static List<Partida> ListarPartidas()
         {
-            // Busca todas as partidas via API ("T" = Todas)
             string retorno = Jogo.ListarPartidas("T");
 
-            // Normaliza o retorno: remove \r e elimina o último caractere (geralmente \n extra)
             retorno = retorno.Replace("\r", "");
             retorno = retorno.Substring(0, retorno.Length - 1);
 
-            // Divide o retorno em linhas, cada linha representa uma partida
             string[] linhas = retorno.Split('\n');
             List<Partida> listaPartidas = new List<Partida>();
 
-            // Para na penúltima posição para evitar processar a linha vazia final
-            for (int i = 0; i < linhas.Length - 1; i++)
+            for (int i = 0; i < linhas.Length; i++)
             {
                 string[] campos = linhas[i].Split(',');
 

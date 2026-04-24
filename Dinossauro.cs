@@ -17,15 +17,11 @@ namespace Sistema_Autonomo_Predadores
 
         public static List<Dinossauro> ListarDinossauros(string mao)
         {
-            // Normaliza quebras de linha para evitar caracteres \r em sistemas Windows
             mao = mao.Replace("\r", "");
 
-            // Divide a string por linha para processar cada dinossauro individualmente
             string[] linhas = mao.Split('\n');
             List<Dinossauro> listaDinossauros = new List<Dinossauro>();
 
-            // Começa do índice 1 para pular o cabeçalho (primeira linha)
-            // Para na penúltima linha para evitar linha vazia no final
             for (int i = 1; i < linhas.Length - 1; i++)
             {
                 string[] campos = linhas[i].Split(',');

@@ -57,8 +57,8 @@
             this.dgvListarJogadores = new System.Windows.Forms.DataGridView();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnJogar = new System.Windows.Forms.Button();
             this.lblMao = new System.Windows.Forms.Label();
-            this.btnVoltar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -109,7 +109,7 @@
             // 
             this.lblVersao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVersao.AutoSize = true;
-            this.lblVersao.Location = new System.Drawing.Point(869, 385);
+            this.lblVersao.Location = new System.Drawing.Point(869, 319);
             this.lblVersao.Name = "lblVersao";
             this.lblVersao.Size = new System.Drawing.Size(43, 13);
             this.lblVersao.TabIndex = 12;
@@ -141,7 +141,6 @@
             this.label7.Size = new System.Drawing.Size(21, 13);
             this.label7.TabIndex = 18;
             this.label7.Text = "ID:";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label8
             // 
@@ -209,7 +208,6 @@
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(91, 20);
             this.txtID.TabIndex = 32;
-            this.txtID.TextChanged += new System.EventHandler(this.txtID_TextChanged);
             // 
             // txtJogador
             // 
@@ -235,11 +233,11 @@
             // 
             // btnIniciar
             // 
-            this.btnIniciar.Location = new System.Drawing.Point(202, 34);
+            this.btnIniciar.Location = new System.Drawing.Point(211, 28);
             this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(121, 45);
+            this.btnIniciar.Size = new System.Drawing.Size(121, 24);
             this.btnIniciar.TabIndex = 37;
-            this.btnIniciar.Text = "Jogar";
+            this.btnIniciar.Text = "Iniciar Partida";
             this.btnIniciar.UseVisualStyleBackColor = true;
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
@@ -247,11 +245,11 @@
             // 
             this.lblDraftosaurus.AutoSize = true;
             this.lblDraftosaurus.BackColor = System.Drawing.SystemColors.Control;
-            this.lblDraftosaurus.Location = new System.Drawing.Point(444, 9);
+            this.lblDraftosaurus.Location = new System.Drawing.Point(421, 9);
             this.lblDraftosaurus.Name = "lblDraftosaurus";
-            this.lblDraftosaurus.Size = new System.Drawing.Size(39, 13);
+            this.lblDraftosaurus.Size = new System.Drawing.Size(93, 13);
             this.lblDraftosaurus.TabIndex = 38;
-            this.lblDraftosaurus.Text = "Lobby ";
+            this.lblDraftosaurus.Text = "Lobby Predadores";
             // 
             // groupBox1
             // 
@@ -338,6 +336,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnJogar);
             this.groupBox4.Controls.Add(this.lblMao);
             this.groupBox4.Controls.Add(this.btnIniciar);
             this.groupBox4.Controls.Add(this.lblID);
@@ -349,6 +348,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Jogar";
             // 
+            // btnJogar
+            // 
+            this.btnJogar.Location = new System.Drawing.Point(211, 68);
+            this.btnJogar.Name = "btnJogar";
+            this.btnJogar.Size = new System.Drawing.Size(121, 24);
+            this.btnJogar.TabIndex = 39;
+            this.btnJogar.Text = "Jogar";
+            this.btnJogar.UseVisualStyleBackColor = true;
+            this.btnJogar.Click += new System.EventHandler(this.btnJogar_Click);
+            // 
             // lblMao
             // 
             this.lblMao.AutoSize = true;
@@ -357,29 +366,18 @@
             this.lblMao.Size = new System.Drawing.Size(0, 13);
             this.lblMao.TabIndex = 38;
             // 
-            // btnVoltar
-            // 
-            this.btnVoltar.Location = new System.Drawing.Point(424, 353);
-            this.btnVoltar.Name = "btnVoltar";
-            this.btnVoltar.Size = new System.Drawing.Size(97, 42);
-            this.btnVoltar.TabIndex = 43;
-            this.btnVoltar.Text = "Voltar";
-            this.btnVoltar.UseVisualStyleBackColor = true;
-            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
-            // 
             // Lobby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(936, 407);
-            this.Controls.Add(this.btnVoltar);
+            this.ClientSize = new System.Drawing.Size(936, 341);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblDraftosaurus);
             this.Controls.Add(this.lblVersao);
-            this.MinimumSize = new System.Drawing.Size(950, 443);
+            this.MinimumSize = new System.Drawing.Size(950, 380);
             this.Name = "Lobby";
             this.Text = "Lobby";
             this.groupBox1.ResumeLayout(false);
@@ -426,11 +424,11 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label lblMao;
-        private System.Windows.Forms.Button btnVoltar;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DataGridView dgvListarJogadores;
         private System.Windows.Forms.Button btnAtualizar;
+        private System.Windows.Forms.Button btnJogar;
     }
 }
 

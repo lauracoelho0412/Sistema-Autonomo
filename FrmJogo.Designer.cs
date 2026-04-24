@@ -36,17 +36,19 @@
             this.panelCD = new System.Windows.Forms.Panel();
             this.panelFI = new System.Windows.Forms.Panel();
             this.panel1HUD = new System.Windows.Forms.Panel();
+            this.lblJogadorDado = new System.Windows.Forms.Label();
             this.cmbDino = new System.Windows.Forms.ComboBox();
             this.cmbCercado = new System.Windows.Forms.ComboBox();
             this.lblMao = new System.Windows.Forms.Label();
             this.lblTurno = new System.Windows.Forms.Label();
             this.lblDado = new System.Windows.Forms.Label();
-            this.lblJogadorDado = new System.Windows.Forms.Label();
+            this.lblJogador = new System.Windows.Forms.Label();
             this.btnJogarManual = new System.Windows.Forms.Button();
             this.panelRS = new System.Windows.Forms.Panel();
-            this.lblJDado = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.panelTabu)).BeginInit();
             this.panel1HUD.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTabu
@@ -117,18 +119,27 @@
             // 
             // panel1HUD
             // 
-            this.panel1HUD.Controls.Add(this.lblJDado);
+            this.panel1HUD.Controls.Add(this.lblJogadorDado);
             this.panel1HUD.Controls.Add(this.cmbDino);
             this.panel1HUD.Controls.Add(this.cmbCercado);
             this.panel1HUD.Controls.Add(this.lblMao);
             this.panel1HUD.Controls.Add(this.lblTurno);
             this.panel1HUD.Controls.Add(this.lblDado);
-            this.panel1HUD.Controls.Add(this.lblJogadorDado);
+            this.panel1HUD.Controls.Add(this.lblJogador);
             this.panel1HUD.Location = new System.Drawing.Point(618, 28);
             this.panel1HUD.Margin = new System.Windows.Forms.Padding(2);
             this.panel1HUD.Name = "panel1HUD";
             this.panel1HUD.Size = new System.Drawing.Size(170, 464);
             this.panel1HUD.TabIndex = 7;
+            // 
+            // lblJogadorDado
+            // 
+            this.lblJogadorDado.AutoSize = true;
+            this.lblJogadorDado.Location = new System.Drawing.Point(17, 70);
+            this.lblJogadorDado.Name = "lblJogadorDado";
+            this.lblJogadorDado.Size = new System.Drawing.Size(81, 13);
+            this.lblJogadorDado.TabIndex = 7;
+            this.lblJogadorDado.Text = "lblJogadorDado";
             // 
             // cmbDino
             // 
@@ -172,9 +183,9 @@
             this.lblMao.Location = new System.Drawing.Point(18, 207);
             this.lblMao.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMao.Name = "lblMao";
-            this.lblMao.Size = new System.Drawing.Size(35, 13);
+            this.lblMao.Size = new System.Drawing.Size(38, 13);
             this.lblMao.TabIndex = 4;
-            this.lblMao.Text = "label4";
+            this.lblMao.Text = "lblMao";
             // 
             // lblTurno
             // 
@@ -182,9 +193,9 @@
             this.lblTurno.Location = new System.Drawing.Point(18, 144);
             this.lblTurno.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTurno.Name = "lblTurno";
-            this.lblTurno.Size = new System.Drawing.Size(35, 13);
+            this.lblTurno.Size = new System.Drawing.Size(45, 13);
             this.lblTurno.TabIndex = 2;
-            this.lblTurno.Text = "label2";
+            this.lblTurno.Text = "lblTurno";
             // 
             // lblDado
             // 
@@ -192,19 +203,19 @@
             this.lblDado.Location = new System.Drawing.Point(18, 105);
             this.lblDado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDado.Name = "lblDado";
-            this.lblDado.Size = new System.Drawing.Size(35, 13);
+            this.lblDado.Size = new System.Drawing.Size(43, 13);
             this.lblDado.TabIndex = 1;
-            this.lblDado.Text = "label1";
+            this.lblDado.Text = "lblDado";
             // 
-            // lblJogadorDado
+            // lblJogador
             // 
-            this.lblJogadorDado.AutoSize = true;
-            this.lblJogadorDado.Location = new System.Drawing.Point(18, 35);
-            this.lblJogadorDado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblJogadorDado.Name = "lblJogadorDado";
-            this.lblJogadorDado.Size = new System.Drawing.Size(35, 13);
-            this.lblJogadorDado.TabIndex = 0;
-            this.lblJogadorDado.Text = "label1";
+            this.lblJogador.AutoSize = true;
+            this.lblJogador.Location = new System.Drawing.Point(18, 35);
+            this.lblJogador.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblJogador.Name = "lblJogador";
+            this.lblJogador.Size = new System.Drawing.Size(55, 13);
+            this.lblJogador.TabIndex = 0;
+            this.lblJogador.Text = "lblJogador";
             // 
             // btnJogarManual
             // 
@@ -226,20 +237,20 @@
             this.panelRS.Size = new System.Drawing.Size(115, 72);
             this.panelRS.TabIndex = 6;
             // 
-            // lblJDado
+            // pictureBox1
             // 
-            this.lblJDado.AutoSize = true;
-            this.lblJDado.Location = new System.Drawing.Point(17, 70);
-            this.lblJDado.Name = "lblJDado";
-            this.lblJDado.Size = new System.Drawing.Size(35, 13);
-            this.lblJDado.TabIndex = 7;
-            this.lblJDado.Text = "label1";
+            this.pictureBox1.Location = new System.Drawing.Point(334, 382);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
             // 
             // FrmJogo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 534);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panelRS);
             this.Controls.Add(this.panelCD);
             this.Controls.Add(this.btnJogarManual);
@@ -257,6 +268,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelTabu)).EndInit();
             this.panel1HUD.ResumeLayout(false);
             this.panel1HUD.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -274,11 +286,12 @@
         private System.Windows.Forms.Label lblMao;
         private System.Windows.Forms.Label lblTurno;
         private System.Windows.Forms.Label lblDado;
-        private System.Windows.Forms.Label lblJogadorDado;
+        private System.Windows.Forms.Label lblJogador;
         private System.Windows.Forms.Button btnJogarManual;
         private System.Windows.Forms.ComboBox cmbCercado;
         private System.Windows.Forms.ComboBox cmbDino;
         private System.Windows.Forms.Panel panelRS;
-        private System.Windows.Forms.Label lblJDado;
+        private System.Windows.Forms.Label lblJogadorDado;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
