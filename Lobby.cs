@@ -1,51 +1,36 @@
 ﻿using Draft;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sistema_Autonomo_Predadores
 {
     public partial class Lobby : Form
     {
-        // ── Estado interno do Lobby ──────────────────────────────────────────
         private Jogador _jogador;
         private Partida _partida;
         private Turno _turno;
-        private Dinossauro _dinossauro;
 
         public Lobby()
         {
             InitializeComponent();
-
-            // Exibe a versão atual do jogo no label de rodapé
             lblVersao.Text = "Versão: " + Jogo.versao;
 
-            // Inicializa os objetos de estado com valores padrão
             _jogador = new Jogador();
             _partida = new Partida();
             _turno = new Turno();
-            _dinossauro = new Dinossauro();
         }
 
-        // ── Eventos de Botões ────────────────────────────────────────────────
+        // ── Seleção de Partida ──────────────────────────────────────────────────
 
-        private void btn_Click(object sender, EventArgs e)
+        private void btnPartidas_Click(object sender, EventArgs e)
         {
-            ListarPartidas formListarPartidas = new ListarPartidas();
-            formListarPartidas.ShowDialog();
+            var form = new ListarPartidas();
+            form.ShowDialog();
 
-            if (formListarPartidas.PartidaSelecionada != null)
+            if (form.PartidaSelecionada != null)
             {
-                _partida = formListarPartidas.PartidaSelecionada;
-                txtID.Text = Convert.ToString(_partida.Id);
+                _partida = form.PartidaSelecionada;
+                txtID.Text = _partida.Id.ToString();
             }
             else
             {
@@ -58,75 +43,48 @@ namespace Sistema_Autonomo_Predadores
             }
         }
 
+        // ── Gerenciamento de Partida ────────────────────────────────────────────
+
         private void btnCriarPartida_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNome.Text) || string.IsNullOrEmpty(txtSenha.Text))
-            {
-                MessageBox.Show(
-                    "Algum campo não foi preenchido!",
-                    "Atenção",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
-            }
+            if (!ValidarCampos(txtNome, txtSenha)) return;
 
             string retorno = Jogo.CriarPartida(txtNome.Text, txtSenha.Text, lblNome.Text);
 
             if (retorno.Contains("ERRO"))
             {
-                MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MostrarErro(retorno);
+                return;
             }
-            else
-            {
-                // Armazena o ID retornado e atualiza os campos visuais
-                _partida.Id = Convert.ToInt32(retorno);
-                txtID.Text = retorno;
-                txtSenhaPartida.Text = txtSenha.Text;
-            }
+
+            txtID.Text = retorno;
+            txtSenhaPartida.Text = txtSenha.Text;
+            MostrarSucesso("Partida criada com sucesso!");
         }
 
         private void btnEntrar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtID.Text)
-                || string.IsNullOrEmpty(txtSenhaPartida.Text)
-                || string.IsNullOrEmpty(txtJogador.Text))
+            if (!ValidarCampos(txtID, txtSenhaPartida, txtJogador)) return;
+
+            _partida.Id = Convert.ToInt32(txtID.Text);
+            _partida.Senha = txtSenhaPartida.Text;
+            _jogador.Nome = txtJogador.Text;
+
+            string retorno = Jogo.Entrar(_partida.Id, _jogador.Nome, _partida.Senha);
+
+            if (!retorno.Contains(","))
             {
-                MessageBox.Show(
-                    "Algum campo não foi preenchido!",
-                    "Atenção",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MostrarErro(retorno);
                 return;
             }
 
-            string retorno = Jogo.Entrar(int.Parse(txtID.Text), txtJogador.Text, txtSenhaPartida.Text);
+            string[] info = retorno.Split(',');
+            _jogador.Id = Convert.ToInt32(info[0]);
+            _jogador.Senha = info[1];
 
-            // Retorno com vírgula indica sucesso: "id,senha"
-            if (retorno.Contains(","))
-            {
-                string[] info = retorno.Split(',');
-
-                _jogador.Id = Convert.ToInt32(info[0]);
-                _jogador.Nome = txtJogador.Text;
-                _jogador.Senha = info[1];
-
-                // Exibe os dados do jogador autenticado na tela
-                lblID.Text = $"ID {_jogador.Nome}: {_jogador.Id}";
-                lblSenha.Text = $"Senha {_jogador.Nome}: {_jogador.Senha}";
-
-                MessageBox.Show(
-                    $"{_jogador.Nome} entrou na partida",
-                    "Sucesso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-            }
-            else
-            {
-                MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            lblID.Text = $"ID {_jogador.Nome}: {_jogador.Id}";
+            lblSenha.Text = $"Senha {_jogador.Nome}: {_jogador.Senha}";
+            MostrarSucesso($"{_jogador.Nome} entrou na partida.");
         }
 
         private void btnIniciar_Click(object sender, EventArgs e)
@@ -134,111 +92,91 @@ namespace Sistema_Autonomo_Predadores
             string retorno = Jogo.Iniciar(_jogador.Id, _jogador.Senha);
 
             if (retorno.Contains("ERRO"))
-            {
-                MessageBox.Show(retorno, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Extrai o ID do jogador que rolou o dado e o resultado do dado
-            string[] dadoInfo = retorno.Split(',');
-            _turno.IdJogadorDado = Convert.ToInt32(dadoInfo[0]);
-            _turno.Dado = dadoInfo[1];
-
-            // Busca a mão de dinossauros do jogador e determina o número do turno
-            string mao = Jogo.ExibirMao(_jogador.Id, _jogador.Senha);
-
-            // O número do turno está no primeiro campo da mão formatada
-            string maoFormatada = mao.Replace("\n", ",");
-            string[] camposMao = maoFormatada.Split(',');
-            _turno.TurnoAtual = Convert.ToInt32(camposMao[0]);
-
-            // Atualiza os labels de dado, jogador e dinossauros na interface
-            lblDado.Text = _turno.Dado;
-            lblJDado.Text = ObterNomeJogadorDado(_partida.Id);
-            lblDino.Text = mao;
-            RealizarJogada(Dinossauro.ListarDinossauros(mao), _turno.Dado);
-
+                MostrarErro(retorno);
+            else
+                MostrarSucesso("Partida iniciada com sucesso!");
         }
 
-        private void btnVoltar_Click(object sender, EventArgs e)
+        private void btnJogar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (!AtualizarDados()) return;
+
+            var telaJogo = new FrmJogo();
+            telaJogo.AtualizarInfoTurno(_jogador.Nome, _jogador.Id, _jogador.Senha, _partida.Id);
+            telaJogo.Show();
         }
+
+        // ── Tabela de Jogadores ─────────────────────────────────────────────────
 
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
+            AtualizarTabelaJogadores();
+        }
+
+        private void AtualizarTabelaJogadores()
+        {
             dgvListarJogadores.DataSource = Jogador.ListarJogadores(_partida.Id);
 
-            // Configurações de interação e visual da tabela de jogadores
             dgvListarJogadores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvListarJogadores.EditMode = DataGridViewEditMode.EditProgrammatically;
             dgvListarJogadores.AllowUserToResizeColumns = false;
             dgvListarJogadores.AllowUserToResizeRows = false;
             dgvListarJogadores.RowHeadersVisible = false;
 
-            // Configura as colunas: nome preenche o espaço, senha fica oculta
             dgvListarJogadores.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvListarJogadores.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvListarJogadores.Columns[2].Visible = false;
         }
 
-        // ── Métodos Auxiliares ───────────────────────────────────────────────
+        // ── Navegação ───────────────────────────────────────────────────────────
 
-        private string ObterNomeJogadorDado(int idPartida)
+        private void btnVoltar_Click(object sender, EventArgs e)
         {
-            List<Jogador> jogadores = Jogador.ListarJogadores(idPartida);
-
-            foreach (Jogador jogador in jogadores)
-            {
-                if (jogador.Id == _turno.IdJogadorDado)
-                    return jogador.Nome;
-            }
-
-            return "Jogador não encontrado!";
+            this.Close();
         }
 
-        private string RealizarJogada(List<Dinossauro> mao, string dado)
+        // ── Helpers ─────────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Consulta o servidor e atualiza _partida e _turno com os dados atuais.
+        /// Retorna false se houver erro.
+        /// </summary>
+        public bool AtualizarDados()
         {
-            // Verifica se há dinossauros disponíveis antes de tentar jogar
-            if (mao == null || mao.Count == 0)
+            string retorno = Jogo.VerificarPartida(_partida.Id);
+
+            if (!_partida.CarregarDeVerificacao(retorno, _turno))
             {
-                MessageBox.Show("Mão do jogador está vazia!", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return "ERRO: Mão vazia";
+                MostrarErro(retorno);
+                return false;
             }
 
-            // Delega a decisão ao sistema autônomo, que avalia o tabuleiro e escolhe a melhor jogada
-            var jogada = Decisao.EscolherJogada(mao, dado);
-
-            string codigoDino = jogada.Item1;
-            string codigoCercado = jogada.Item2;
-
-            // Valida se o sistema retornou uma jogada válida
-            if (codigoDino == null || codigoCercado == null)
-            {
-                MessageBox.Show("Não foi possível determinar uma jogada válida.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return "ERRO: Jogada inválida";
-            }
-
-            // Exibe na interface qual jogada foi decidida pelo sistema autônomo
-            lblDino.Text = $"Jogando: {codigoDino}\nCercado: {codigoCercado}";
-            lblJogada.Text = $"Jogando: {codigoDino} → Cercado: {codigoCercado}";
-
-            // Envia a jogada para o servidor via DLL
-            string resposta = Jogo.Jogar(_jogador.Id, _jogador.Senha, codigoDino, codigoCercado);
-
-            if (resposta.Contains("ERRO"))
-            {
-                MessageBox.Show(resposta, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return resposta;
-            }
-
-            // A resposta é o número do próximo turno
-            _turno.TurnoAtual = Convert.ToInt32(resposta);
-            lblProxTurno.Text = $"Próximo turno: {_turno.TurnoAtual}";
-
-            return resposta;
+            return true;
         }
+
+        private bool ValidarCampos(params System.Windows.Forms.TextBox[] campos)
+        {
+            foreach (var campo in campos)
+            {
+                if (string.IsNullOrWhiteSpace(campo.Text))
+                {
+                    MessageBox.Show(
+                        "Algum campo não foi preenchido!",
+                        "Atenção",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void MostrarErro(string mensagem) =>
+            MessageBox.Show(mensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+        private void MostrarSucesso(string mensagem) =>
+            MessageBox.Show(mensagem, "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
     }
 }
-    
-

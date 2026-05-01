@@ -1,47 +1,43 @@
 ﻿using Draft;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sistema_Autonomo_Predadores
 {
-    internal class Jogador
+    public class Jogador
     {
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Senha { get; set; }
+        public List<Dinossauro> Mao { get; set; }
         public int Pontuacao { get; set; }
 
+        /// <summary>
+        /// Retorna a lista de jogadores de uma partida a partir do servidor.
+        /// </summary>
         public static List<Jogador> ListarJogadores(int idPartida)
         {
-            // Busca os jogadores via API do jogo
             string retorno = Jogo.ListarJogadores(idPartida);
-
-            // Normaliza quebras de linha para remover \r do formato Windows
             retorno = retorno.Replace("\r", "");
 
-            // Divide o retorno em linhas para processar cada jogador
             string[] linhas = retorno.Split('\n');
-            List<Jogador> listaJogadores = new List<Jogador>();
+            var lista = new List<Jogador>();
 
-            // Para na penúltima posição para evitar processar a linha vazia final
-            for (int i = 0; i < linhas.Length - 1; i++)
+            foreach (string linha in linhas)
             {
-                string[] campos = linhas[i].Split(',');
+                if (string.IsNullOrWhiteSpace(linha)) continue;
 
-                Jogador jogador = new Jogador
+                string[] campos = linha.Split(',');
+
+                lista.Add(new Jogador
                 {
                     Id = Convert.ToInt32(campos[0]),
                     Nome = campos[1],
                     Pontuacao = Convert.ToInt32(campos[2])
-                };
-
-                listaJogadores.Add(jogador);
+                });
             }
 
-            return listaJogadores;
+            return lista;
         }
     }
 }

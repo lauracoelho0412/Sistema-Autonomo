@@ -1,45 +1,40 @@
-﻿using Draft;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sistema_Autonomo_Predadores
 {
-    internal class Dinossauro
+    public class Dinossauro
     {
         public string Nome { get; set; }
-
         public int Quantidade { get; set; }
-
         public string Localizacao { get; set; }
 
-        public static List<Dinossauro> ListarDinossauros(string mao)
+        /// <summary>
+        /// Converte a string CSV retornada pelo servidor em uma lista de dinossauros.
+        /// O formato esperado é: cabeçalho na linha 0, dados nas linhas seguintes,
+        /// terminando com uma linha vazia.
+        /// </summary>
+        public static List<Dinossauro> ListarDinossauros(string csv)
         {
-            // Normaliza quebras de linha para evitar caracteres \r em sistemas Windows
-            mao = mao.Replace("\r", "");
+            csv = csv.Replace("\r", "");
+            string[] linhas = csv.Split('\n');
+            var lista = new List<Dinossauro>();
 
-            // Divide a string por linha para processar cada dinossauro individualmente
-            string[] linhas = mao.Split('\n');
-            List<Dinossauro> listaDinossauros = new List<Dinossauro>();
-
-            // Começa do índice 1 para pular o cabeçalho (primeira linha)
-            // Para na penúltima linha para evitar linha vazia no final
+            // Linha 0 é cabeçalho; última linha costuma ser vazia
             for (int i = 1; i < linhas.Length - 1; i++)
             {
+                if (string.IsNullOrWhiteSpace(linhas[i])) continue;
+
                 string[] campos = linhas[i].Split(',');
 
-                Dinossauro dinossauro = new Dinossauro
+                lista.Add(new Dinossauro
                 {
                     Nome = campos[0],
                     Quantidade = Convert.ToInt32(campos[1])
-                };
-
-                listaDinossauros.Add(dinossauro);
+                });
             }
 
-            return listaDinossauros;
+            return lista;
         }
     }
 }

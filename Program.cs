@@ -16,7 +16,7 @@ namespace Sistema_Autonomo_Predadores
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PgInicial());
+            Application.Run(new Lobby());
         }
     }
 }
