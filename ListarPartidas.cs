@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Sistema_Autonomo_Predadores
 {
     public partial class ListarPartidas : Form
     {
-        internal Partida PartidaSelecionada { get; set; }
+        internal Partida PartidaSelecionada { get; private set; }
 
         public ListarPartidas()
         {
@@ -24,7 +16,6 @@ namespace Sistema_Autonomo_Predadores
         {
             dgvListarPartidas.DataSource = Partida.ListarPartidas();
 
-            // Configurações de interação do usuário com a tabela
             dgvListarPartidas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvListarPartidas.EditMode = DataGridViewEditMode.EditProgrammatically;
             dgvListarPartidas.AllowUserToResizeColumns = false;
@@ -35,8 +26,10 @@ namespace Sistema_Autonomo_Predadores
             dgvListarPartidas.Columns[1].HeaderText = "Nome da Partida";
             dgvListarPartidas.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
-        private void btnSelecionar_Click(object sender, EventArgs e)
+
+        private void btnSelecionar_Click(object sender, System.EventArgs e)
         {
+            if (dgvListarPartidas.SelectedRows.Count == 0) return;
             PartidaSelecionada = (Partida)dgvListarPartidas.SelectedRows[0].DataBoundItem;
             this.Close();
         }

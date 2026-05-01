@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Decisao.cs" />
     <Compile Include="Dinossauro.cs" />
     <Compile Include="FrmJogo.cs">
       <SubType>Form</SubType>

@@ -1,46 +1,62 @@
 ﻿using Draft;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sistema_Autonomo_Predadores
 {
     internal class Partida
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Nome { get; set; }
         public DateTime Data { get; set; }
         public string Status { get; set; }
         public string Senha { get; set; }
+        public List<Jogador> Jogadores { get; set; }
 
+        /// <summary>
+        /// Retorna todas as partidas disponíveis no servidor.
+        /// </summary>
         public static List<Partida> ListarPartidas()
         {
             string retorno = Jogo.ListarPartidas("T");
-
-            retorno = retorno.Replace("\r", "");
-            retorno = retorno.Substring(0, retorno.Length - 1);
+            retorno = retorno.Replace("\r", "").TrimEnd('\n');
 
             string[] linhas = retorno.Split('\n');
-            List<Partida> listaPartidas = new List<Partida>();
+            var lista = new List<Partida>();
 
-            for (int i = 0; i < linhas.Length; i++)
+            foreach (string linha in linhas)
             {
-                string[] campos = linhas[i].Split(',');
+                string[] campos = linha.Split(',');
 
-                Partida partida = new Partida
+                lista.Add(new Partida
                 {
                     Id = Convert.ToInt32(campos[0]),
-                    Name = campos[1],
+                    Nome = campos[1],
                     Data = Convert.ToDateTime(campos[2]),
                     Status = campos[3]
-                };
-
-                listaPartidas.Add(partida);
+                });
             }
 
-            return listaPartidas;
+            return lista;
+        }
+
+        /// <summary>
+        /// Preenche Status e Turno a partir da resposta de VerificarPartida.
+        /// Formato esperado: "StatusPartida,TurnoAtual,StatusTurno,IdJogadorDado,Dado"
+        /// Retorna false se a resposta contiver erro.
+        /// </summary>
+        public bool CarregarDeVerificacao(string retorno, Turno turno)
+        {
+            if (retorno.Contains("ERRO"))
+                return false;
+
+            string[] campos = retorno.Replace("\r", "").Replace("\n", "").Split(',');
+            Status = campos[0];
+            turno.TurnoAtual = Convert.ToInt32(campos[1]);
+            turno.Status = campos[2];
+            turno.IdJogadorDado = Convert.ToInt32(campos[3]);
+            turno.Dado = campos[4];
+            return true;
         }
     }
 }

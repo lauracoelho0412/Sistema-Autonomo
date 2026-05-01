@@ -75,7 +75,7 @@
             this.btnPartidas.TabIndex = 0;
             this.btnPartidas.Text = "Listar Partidas";
             this.btnPartidas.UseVisualStyleBackColor = true;
-            this.btnPartidas.Click += new System.EventHandler(this.btn_Click);
+            this.btnPartidas.Click += new System.EventHandler(this.btnPartidas_Click);
             // 
             // label3
             // 

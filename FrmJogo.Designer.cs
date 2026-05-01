@@ -36,19 +36,20 @@
             this.panelCD = new System.Windows.Forms.Panel();
             this.panelFI = new System.Windows.Forms.Panel();
             this.panel1HUD = new System.Windows.Forms.Panel();
+            this.lblCercados = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.btnAtualizar = new System.Windows.Forms.Button();
             this.lblJogadorDado = new System.Windows.Forms.Label();
             this.cmbDino = new System.Windows.Forms.ComboBox();
             this.cmbCercado = new System.Windows.Forms.ComboBox();
+            this.btnJogarManual = new System.Windows.Forms.Button();
             this.lblMao = new System.Windows.Forms.Label();
             this.lblTurno = new System.Windows.Forms.Label();
             this.lblDado = new System.Windows.Forms.Label();
             this.lblJogador = new System.Windows.Forms.Label();
-            this.btnJogarManual = new System.Windows.Forms.Button();
             this.panelRS = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.panelTabu)).BeginInit();
             this.panel1HUD.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTabu
@@ -119,9 +120,13 @@
             // 
             // panel1HUD
             // 
+            this.panel1HUD.Controls.Add(this.lblCercados);
+            this.panel1HUD.Controls.Add(this.lblStatus);
+            this.panel1HUD.Controls.Add(this.btnAtualizar);
             this.panel1HUD.Controls.Add(this.lblJogadorDado);
             this.panel1HUD.Controls.Add(this.cmbDino);
             this.panel1HUD.Controls.Add(this.cmbCercado);
+            this.panel1HUD.Controls.Add(this.btnJogarManual);
             this.panel1HUD.Controls.Add(this.lblMao);
             this.panel1HUD.Controls.Add(this.lblTurno);
             this.panel1HUD.Controls.Add(this.lblDado);
@@ -129,8 +134,39 @@
             this.panel1HUD.Location = new System.Drawing.Point(618, 28);
             this.panel1HUD.Margin = new System.Windows.Forms.Padding(2);
             this.panel1HUD.Name = "panel1HUD";
-            this.panel1HUD.Size = new System.Drawing.Size(170, 464);
+            this.panel1HUD.Size = new System.Drawing.Size(289, 446);
             this.panel1HUD.TabIndex = 7;
+            // 
+            // lblCercados
+            // 
+            this.lblCercados.AutoSize = true;
+            this.lblCercados.Location = new System.Drawing.Point(164, 207);
+            this.lblCercados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCercados.Name = "lblCercados";
+            this.lblCercados.Size = new System.Drawing.Size(62, 13);
+            this.lblCercados.TabIndex = 13;
+            this.lblCercados.Text = "lblCercados";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(17, 181);
+            this.lblStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(47, 13);
+            this.lblStatus.TabIndex = 12;
+            this.lblStatus.Text = "lblStatus";
+            // 
+            // btnAtualizar
+            // 
+            this.btnAtualizar.Location = new System.Drawing.Point(167, 377);
+            this.btnAtualizar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAtualizar.Name = "btnAtualizar";
+            this.btnAtualizar.Size = new System.Drawing.Size(94, 41);
+            this.btnAtualizar.TabIndex = 11;
+            this.btnAtualizar.Text = "Atualizar";
+            this.btnAtualizar.UseVisualStyleBackColor = true;
+            this.btnAtualizar.Click += new System.EventHandler(this.btnAtualizar_Click);
             // 
             // lblJogadorDado
             // 
@@ -153,7 +189,7 @@
             "Pa",
             "Ti",
             "Tr"});
-            this.cmbDino.Location = new System.Drawing.Point(20, 305);
+            this.cmbDino.Location = new System.Drawing.Point(21, 330);
             this.cmbDino.Margin = new System.Windows.Forms.Padding(2);
             this.cmbDino.Name = "cmbDino";
             this.cmbDino.Size = new System.Drawing.Size(120, 21);
@@ -171,11 +207,22 @@
             "PA",
             "RI",
             "RS"});
-            this.cmbCercado.Location = new System.Drawing.Point(20, 341);
+            this.cmbCercado.Location = new System.Drawing.Point(156, 330);
             this.cmbCercado.Margin = new System.Windows.Forms.Padding(2);
             this.cmbCercado.Name = "cmbCercado";
             this.cmbCercado.Size = new System.Drawing.Size(120, 21);
             this.cmbCercado.TabIndex = 6;
+            // 
+            // btnJogarManual
+            // 
+            this.btnJogarManual.Location = new System.Drawing.Point(32, 377);
+            this.btnJogarManual.Margin = new System.Windows.Forms.Padding(2);
+            this.btnJogarManual.Name = "btnJogarManual";
+            this.btnJogarManual.Size = new System.Drawing.Size(94, 41);
+            this.btnJogarManual.TabIndex = 10;
+            this.btnJogarManual.Text = "Jogar Manual";
+            this.btnJogarManual.UseVisualStyleBackColor = true;
+            this.btnJogarManual.Click += new System.EventHandler(this.btnJogarManual_Click);
             // 
             // lblMao
             // 
@@ -217,17 +264,6 @@
             this.lblJogador.TabIndex = 0;
             this.lblJogador.Text = "lblJogador";
             // 
-            // btnJogarManual
-            // 
-            this.btnJogarManual.Location = new System.Drawing.Point(651, 423);
-            this.btnJogarManual.Margin = new System.Windows.Forms.Padding(2);
-            this.btnJogarManual.Name = "btnJogarManual";
-            this.btnJogarManual.Size = new System.Drawing.Size(94, 41);
-            this.btnJogarManual.TabIndex = 10;
-            this.btnJogarManual.Text = "Jogar Manual";
-            this.btnJogarManual.UseVisualStyleBackColor = true;
-            this.btnJogarManual.Click += new System.EventHandler(this.btnJogarManual_Click);
-            // 
             // panelRS
             // 
             this.panelRS.BackColor = System.Drawing.Color.Transparent;
@@ -237,23 +273,13 @@
             this.panelRS.Size = new System.Drawing.Size(115, 72);
             this.panelRS.TabIndex = 6;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(334, 382);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 11;
-            this.pictureBox1.TabStop = false;
-            // 
             // FrmJogo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(795, 534);
-            this.Controls.Add(this.pictureBox1);
+            this.ClientSize = new System.Drawing.Size(918, 534);
             this.Controls.Add(this.panelRS);
             this.Controls.Add(this.panelCD);
-            this.Controls.Add(this.btnJogarManual);
             this.Controls.Add(this.panel1HUD);
             this.Controls.Add(this.panelFI);
             this.Controls.Add(this.panelRI);
@@ -268,7 +294,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelTabu)).EndInit();
             this.panel1HUD.ResumeLayout(false);
             this.panel1HUD.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -292,6 +317,8 @@
         private System.Windows.Forms.ComboBox cmbDino;
         private System.Windows.Forms.Panel panelRS;
         private System.Windows.Forms.Label lblJogadorDado;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnAtualizar;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label lblCercados;
     }
 }
