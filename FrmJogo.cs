@@ -152,11 +152,11 @@ namespace Sistema_Autonomo_Predadores
         {
             switch (nomeDino)
             {
-                case "Br":
+                case "Br": return Properties.Resources.dinoroxo;
                 case "Pa": return Properties.Resources.dinoverde;
                 case "Et": return Properties.Resources.dinoazul;
-                case "Ep":
-                case "Ti": return Properties.Resources.dinolaranja;
+                case "Ep": return Properties.Resources.dinolaranja;
+                case "Ti": return Properties.Resources.dinovermelho;
                 case "Tr": return Properties.Resources.dinoamarelo;
                 default: return null;
             }
