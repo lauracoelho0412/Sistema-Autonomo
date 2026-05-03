@@ -29,12 +29,21 @@ namespace Sistema_Autonomo_Predadores
 
                 string[] campos = linha.Split(',');
 
-                lista.Add(new Jogador
+                if (campos.Length < 3)
+                    continue;
+
+
+                  if(  int.TryParse(campos[0], out int id) &&
+                       int.TryParse(campos[2], out int pontuacao))
                 {
-                    Id = Convert.ToInt32(campos[0]),
-                    Nome = campos[1],
-                    Pontuacao = Convert.ToInt32(campos[2])
-                });
+                    lista.Add(new Jogador
+                    {
+                        Id = id,
+                        Nome = campos[1],
+                        Pontuacao = pontuacao
+                    });
+                }
+                    
             }
 
             return lista;

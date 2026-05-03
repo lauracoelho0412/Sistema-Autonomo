@@ -14,6 +14,7 @@ namespace Sistema_Autonomo_Predadores
         private Turno _turno;
         private Jogador _jogador;
         private Partida _partida;
+        private Random random = new Random();
 
         // Número máximo de slots por cercado
         private static readonly Dictionary<string, int> SlotsPorCercado = new Dictionary<string, int>
@@ -39,9 +40,13 @@ namespace Sistema_Autonomo_Predadores
         public FrmJogo()
         {
             InitializeComponent();
-            _turno = new Turno();
-            _jogador = new Jogador();
-            _partida = new Partida();
+        
+        }
+
+        public void IniciarAutomacao()
+        
+        {
+            timer1.Start();
         }
 
         private void FrmJogo_Load(object sender, EventArgs e)
@@ -73,6 +78,12 @@ namespace Sistema_Autonomo_Predadores
         /// </summary>
         public void AtualizarInfoTurno(string nomeJogador, int idJogador, string senha, int idPartida)
         {
+            if (_jogador == null)
+                _jogador = new Jogador();
+
+            if (_partida == null)
+                _partida = new Partida();
+
             _jogador.Nome = nomeJogador;
             _jogador.Senha = senha;
             _jogador.Id = idJogador;
@@ -82,9 +93,13 @@ namespace Sistema_Autonomo_Predadores
 
             string retorno = Jogo.VerificarPartida(_partida.Id);
 
+            if (_turno == null)
+                _turno = new Turno();
+
             if (!_partida.CarregarDeVerificacao(retorno, _turno))
             {
-                MostrarErro(retorno);
+                lblStatus.Text = "Aguardando partida iniciar";
+              //  MostrarErro(retorno);
                 return;
             }
 
@@ -92,6 +107,7 @@ namespace Sistema_Autonomo_Predadores
             _jogador.Mao = ObterMaoJogador();
 
             AtualizarLabels();
+            timer1.Start();
         }
 
         private List<Dinossauro> ObterMaoJogador()
@@ -100,7 +116,6 @@ namespace Sistema_Autonomo_Predadores
 
             if (retorno.Contains("ERRO"))
             {
-                MostrarErro(retorno);
                 return new List<Dinossauro>();
             }
 
@@ -116,7 +131,8 @@ namespace Sistema_Autonomo_Predadores
             lblDado.Text = "Dado: " + _turno.Dado;
             lblTurno.Text = "Turno: " + _turno.TurnoAtual;
             lblJogadorDado.Text = "Jogador com o dado: " + ObterNomeJogadorDado();
-            lblStatus.Text = "Status: " + _turno.Status;
+            // lblStatus.Text = "Status: " + _turno.Status;
+
             AtualizarLabelMao();
         }
 
@@ -199,7 +215,7 @@ namespace Sistema_Autonomo_Predadores
         /// </summary>
         private bool ValidarJogada(string dino, string cercado)
         {
-            bool ehJogadorDoDado = _jogador.Nome == ObterNomeJogadorDado();
+            bool ehJogadorDoDado = _jogador.Id == _turno.IdJogadorDado;
 
             if (ehJogadorDoDado)
                 return RegraInternaDoCercado(_turno.Dado, cercado, dino);
@@ -270,31 +286,33 @@ namespace Sistema_Autonomo_Predadores
 
         #region Renderização do Tabuleiro
 
-        private void AdicionarDino(string nomeDino, string cercado)
+        private bool AdicionarDino(string nomeDino, string cercado)
         {
+
             string retorno = Jogo.Jogar(_jogador.Id, _jogador.Senha, nomeDino, cercado);
+
             if (retorno.Contains("ERRO"))
             {
-                MostrarErro(retorno);
-                return;
+                // ❌ NÃO mostra erro aqui (evita spam)
+                return false;
             }
 
             Panel destino = ObterPainelDoCercado(cercado);
-            if (destino == null) { MessageBox.Show("Cercado inválido!"); return; }
+            if (destino == null) return false;
 
             int slots = SlotsPorCercado[cercado];
             int dinosNoPanel = destino.Controls.OfType<PictureBox>().Count();
 
-            if (dinosNoPanel >= slots) { MessageBox.Show("Cercado cheio!"); return; }
+            if (dinosNoPanel >= slots) return false;
 
             Image imagem = ObterImagemDino(nomeDino);
-            if (imagem == null) { MessageBox.Show("Dino inválido!"); return; }
+            if (imagem == null) return false;
 
             PictureBox pb = CriarPictureBoxDino(imagem, destino, slots, dinosNoPanel);
 
-            // Atualiza controle interno
             var lista = _cercados[cercado];
             var existente = lista.FirstOrDefault(d => d.Nome == nomeDino);
+
             if (existente != null)
                 existente.Quantidade++;
             else
@@ -303,6 +321,8 @@ namespace Sistema_Autonomo_Predadores
             destino.Controls.Add(pb);
             pb.BringToFront();
             destino.Refresh();
+
+            return true; // ✅ sucesso
         }
 
         private PictureBox CriarPictureBoxDino(Image imagem, Panel destino, int totalSlots, int dinosNoPanel)
@@ -337,17 +357,30 @@ namespace Sistema_Autonomo_Predadores
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
             string retorno = Jogo.VerificarTurno(_partida.Id, _turno.TurnoAtual);
+
+            if (string.IsNullOrWhiteSpace(retorno) || retorno.Contains("ERRO"))
+            {
+                return;
+            }
+
             retorno = retorno.Replace("\r", "");
 
-            string primeirLinha = retorno.Split('\n')[0];
-            _turno.CarregarDeCsv(primeirLinha);
+            string[] linhas = retorno.Split('\n');
+            if (linhas.Length == 0)
+                return;
+
+            string primeiraLinha = linhas[0];
+
+            _turno.CarregarDeCsv(primeiraLinha);
 
             _jogador.Mao = ObterMaoJogador();
 
             AtualizarLabels();
+           
 
             string tabuleiro = Jogo.ExibirTabuleiro(_jogador.Id, _jogador.Senha);
             lblCercados.Text = tabuleiro;
+            lblStatus.Text = "Turno OK";
 
             if (_turno.Status == "F")
                 _turno.TurnoAtual++;
@@ -361,5 +394,89 @@ namespace Sistema_Autonomo_Predadores
             MessageBox.Show(mensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
         #endregion
+
+        //FORÇANDO A RODAR UM TURNO
+        private int ultimoTurnoJogada = -1;
+
+        //TIMER
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            btnAtualizar_Click(null, null);
+
+            if (_turno.TurnoAtual > 12)
+            {
+                timer1.Stop();
+                MessageBox.Show("FIM DE JOGO!");
+                return;
+            }
+
+            //pra não jogar 2 vezes no mesmo turno
+            if (_turno.TurnoAtual == ultimoTurnoJogada)
+                return;
+
+            if (_jogador.Mao == null || _jogador.Mao.Count == 0)
+                return;
+
+            bool jogouAlgo = false;
+
+            var dinosDisponiveis = _jogador.Mao
+                .Where(d => d.Quantidade > 0)
+                .OrderBy(x => random.Next())
+                .ToList();
+
+            string[] cercados = { "FI", "PA", "CD", "RI", "MT", "IS", "RS" };
+
+            foreach (var dino in dinosDisponiveis)
+            {
+                foreach (var cercado in cercados)
+                {
+                    if (ValidarJogada(dino.Nome, cercado))
+                    {
+                        bool jogou = AdicionarDino(dino.Nome, cercado);
+
+                        if (jogou)
+                        {
+                            RemoverDinoMao(dino.Nome);
+                            AtualizarLabelMao();
+
+                            ultimoTurnoJogada = _turno.TurnoAtual;
+                            jogouAlgo = true;
+
+                            break;
+                        }
+                    }
+                }
+
+                if (jogouAlgo)
+                    break;
+            }
+                if (!jogouAlgo)
+                {
+                    foreach (var dino2 in dinosDisponiveis)
+                    {
+                        foreach (var cercado in cercados)
+                        {
+                            bool jogou = AdicionarDino(dino2.Nome, cercado);
+
+                            if (jogou)
+                            {
+                                RemoverDinoMao(dino2.Nome);
+                                AtualizarLabelMao();
+
+                                ultimoTurnoJogada = _turno.TurnoAtual;
+                                return;
+                            }
+                        }
+                    }
+                }
+            if (!jogouAlgo)
+            {
+                // força passar o turno mesmo sem jogar
+                ultimoTurnoJogada = _turno.TurnoAtual;
+            }
+        }
+
     }
 }

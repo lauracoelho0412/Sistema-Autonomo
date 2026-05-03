@@ -1,5 +1,6 @@
 ﻿using Draft;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Sistema_Autonomo_Predadores
@@ -87,14 +88,39 @@ namespace Sistema_Autonomo_Predadores
             MostrarSucesso($"{_jogador.Nome} entrou na partida.");
         }
 
-        private void btnIniciar_Click(object sender, EventArgs e)
+        private async void btnIniciar_Click(object sender, EventArgs e)
         {
             string retorno = Jogo.Iniciar(_jogador.Id, _jogador.Senha);
 
             if (retorno.Contains("ERRO"))
+            {
                 MostrarErro(retorno);
+            }
             else
+            {
                 MostrarSucesso("Partida iniciada com sucesso!");
+
+                //AQUI CHAMA O DO FRMJOGO
+                //  FrmJogo.IniciarAutomacao(); N FUNCIONOU
+
+
+                MessageBox.Show("ID partida: " + _partida.Id);
+                await Task.Delay(1000);
+
+                //ABRE O JOGO AUTOMATICAMENTE 
+                FrmJogo frm = new FrmJogo();
+
+                frm.AtualizarInfoTurno(
+                    _jogador.Nome,
+                    _jogador.Id,
+                    _jogador.Senha,
+                   _partida.Id
+                    );
+                frm.Show();
+
+                this.Hide();
+            }
+              
         }
 
         private void btnJogar_Click(object sender, EventArgs e)
