@@ -39,11 +39,9 @@
             this.panel1HUD = new System.Windows.Forms.Panel();
             this.lblCercados = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
-            this.btnAtualizar = new System.Windows.Forms.Button();
             this.lblJogadorDado = new System.Windows.Forms.Label();
             this.cmbDino = new System.Windows.Forms.ComboBox();
             this.cmbCercado = new System.Windows.Forms.ComboBox();
-            this.btnJogarManual = new System.Windows.Forms.Button();
             this.lblMao = new System.Windows.Forms.Label();
             this.lblTurno = new System.Windows.Forms.Label();
             this.lblDado = new System.Windows.Forms.Label();
@@ -124,11 +122,9 @@
             // 
             this.panel1HUD.Controls.Add(this.lblCercados);
             this.panel1HUD.Controls.Add(this.lblStatus);
-            this.panel1HUD.Controls.Add(this.btnAtualizar);
             this.panel1HUD.Controls.Add(this.lblJogadorDado);
             this.panel1HUD.Controls.Add(this.cmbDino);
             this.panel1HUD.Controls.Add(this.cmbCercado);
-            this.panel1HUD.Controls.Add(this.btnJogarManual);
             this.panel1HUD.Controls.Add(this.lblMao);
             this.panel1HUD.Controls.Add(this.lblTurno);
             this.panel1HUD.Controls.Add(this.lblDado);
@@ -156,17 +152,6 @@
             this.lblStatus.Size = new System.Drawing.Size(58, 16);
             this.lblStatus.TabIndex = 12;
             this.lblStatus.Text = "lblStatus";
-            // 
-            // btnAtualizar
-            // 
-            this.btnAtualizar.Location = new System.Drawing.Point(223, 464);
-            this.btnAtualizar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnAtualizar.Name = "btnAtualizar";
-            this.btnAtualizar.Size = new System.Drawing.Size(125, 50);
-            this.btnAtualizar.TabIndex = 11;
-            this.btnAtualizar.Text = "Atualizar";
-            this.btnAtualizar.UseVisualStyleBackColor = true;
-            this.btnAtualizar.Click += new System.EventHandler(this.btnAtualizar_Click);
             // 
             // lblJogadorDado
             // 
@@ -213,17 +198,6 @@
             this.cmbCercado.Name = "cmbCercado";
             this.cmbCercado.Size = new System.Drawing.Size(159, 24);
             this.cmbCercado.TabIndex = 6;
-            // 
-            // btnJogarManual
-            // 
-            this.btnJogarManual.Location = new System.Drawing.Point(43, 464);
-            this.btnJogarManual.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnJogarManual.Name = "btnJogarManual";
-            this.btnJogarManual.Size = new System.Drawing.Size(125, 50);
-            this.btnJogarManual.TabIndex = 10;
-            this.btnJogarManual.Text = "Jogar Manual";
-            this.btnJogarManual.UseVisualStyleBackColor = true;
-            this.btnJogarManual.Click += new System.EventHandler(this.btnJogarManual_Click);
             // 
             // lblMao
             // 
