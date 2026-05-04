@@ -99,7 +99,7 @@ namespace Sistema_Autonomo_Predadores
             if (!_partida.CarregarDeVerificacao(retorno, _turno))
             {
                 lblStatus.Text = "Aguardando partida iniciar";
-              //  MostrarErro(retorno);
+                MostrarErro(retorno);
                 return;
             }
 
@@ -131,14 +131,13 @@ namespace Sistema_Autonomo_Predadores
             lblDado.Text = "Dado: " + _turno.Dado;
             lblTurno.Text = "Turno: " + _turno.TurnoAtual;
             lblJogadorDado.Text = "Jogador com o dado: " + ObterNomeJogadorDado();
-            // lblStatus.Text = "Status: " + _turno.Status;
 
             AtualizarLabelMao();
         }
 
         private void AtualizarLabelMao()
         {
-            lblMao.Text = "Mão:\n" + string.Join("\n",
+            lblMao.Text = "Minha Mão:\n" + string.Join("\n",
                 _jogador.Mao.Select(d => $"{d.Nome} - Qtd:{d.Quantidade}"));
         }
 
@@ -182,34 +181,6 @@ namespace Sistema_Autonomo_Predadores
 
         #region Lógica de Jogo
 
-        private void btnJogarManual_Click(object sender, EventArgs e)
-        {
-            string dino = cmbDino.SelectedItem?.ToString();
-            string cercado = cmbCercado.SelectedItem?.ToString();
-
-            if (dino == null || cercado == null)
-            {
-                MessageBox.Show("Selecione dino e cercado!");
-                return;
-            }
-
-            if (!_jogador.Mao.Any(d => d.Nome == dino))
-            {
-                MessageBox.Show("Você não tem esse dino na mão!");
-                return;
-            }
-
-            if (!ValidarJogada(dino, cercado))
-            {
-                MessageBox.Show("Jogada inválida! Verifique o dado e os cercados permitidos.");
-                return;
-            }
-
-            AdicionarDino(dino, cercado);
-            RemoverDinoMao(dino);
-            AtualizarLabelMao();
-        }
-
         /// <summary>
         /// Valida se a jogada é permitida com base no dado atual e em quem possui o dado.
         /// </summary>
@@ -233,19 +204,25 @@ namespace Sistema_Autonomo_Predadores
             return RegraInternaDoCercado(_turno.Dado, cercado, dino);
         }
 
-        private void RemoverDinoMao(string nomeDino)
+        private void VerificarGanhador()
         {
-            var dino = _jogador.Mao.FirstOrDefault(d => d.Nome == nomeDino);
-            if (dino == null) return;
-
-            dino.Quantidade--;
-            if (dino.Quantidade <= 0)
-                _jogador.Mao.Remove(dino);
+            var jogadores = Jogador.ListarJogadores(_partida.Id);
+            var maxPontos = jogadores.Max(j => j.Pontuacao);
+            var ganhadores = jogadores.Where(j => j.Pontuacao == maxPontos).ToList();
+            var jogadoresTexto = string.Join("\n", jogadores.Select(j => $"{j.Nome}: {j.Pontuacao} pontos"));
+            if (ganhadores.Count == 1)
+                MessageBox.Show($"Partida Finalizada!\n" +
+                    $"O ganhador é {ganhadores[0].Nome} com {maxPontos} pontos!" +
+                    $"\n\nPontuação dos jogadores:\n{jogadoresTexto}");
+            else
+                MessageBox.Show($"Partida Finalizada!\n" +
+                    $"Empate entre: {string.Join(", ", ganhadores.Select(g => g.Nome))} com {maxPontos} pontos cada!" +
+                    $"\n\nPontuação dos jogadores:\n{jogadoresTexto}");
         }
 
         #endregion
 
-        #region Regras do Dado
+        #region Regras do Dado e Cercados
 
         /// <summary>
         /// Verifica se o cercado está entre os permitidos para o dado atual.
@@ -293,7 +270,6 @@ namespace Sistema_Autonomo_Predadores
 
             if (retorno.Contains("ERRO"))
             {
-                // ❌ NÃO mostra erro aqui (evita spam)
                 return false;
             }
 
@@ -322,7 +298,7 @@ namespace Sistema_Autonomo_Predadores
             pb.BringToFront();
             destino.Refresh();
 
-            return true; // ✅ sucesso
+            return true;
         }
 
         private PictureBox CriarPictureBoxDino(Image imagem, Panel destino, int totalSlots, int dinosNoPanel)
@@ -379,7 +355,7 @@ namespace Sistema_Autonomo_Predadores
            
 
             string tabuleiro = Jogo.ExibirTabuleiro(_jogador.Id, _jogador.Senha);
-            lblCercados.Text = tabuleiro;
+            lblCercados.Text = "Situação do Tabuleiro:\n" + tabuleiro;
             lblStatus.Text = "Turno OK";
 
             if (_turno.Status == "F")
@@ -408,7 +384,7 @@ namespace Sistema_Autonomo_Predadores
             if (_turno.TurnoAtual > 12)
             {
                 timer1.Stop();
-                MessageBox.Show("FIM DE JOGO!");
+                VerificarGanhador();
                 return;
             }
 
@@ -438,7 +414,6 @@ namespace Sistema_Autonomo_Predadores
 
                         if (jogou)
                         {
-                            RemoverDinoMao(dino.Nome);
                             AtualizarLabelMao();
 
                             ultimoTurnoJogada = _turno.TurnoAtual;
@@ -462,7 +437,6 @@ namespace Sistema_Autonomo_Predadores
 
                             if (jogou)
                             {
-                                RemoverDinoMao(dino2.Nome);
                                 AtualizarLabelMao();
 
                                 ultimoTurnoJogada = _turno.TurnoAtual;

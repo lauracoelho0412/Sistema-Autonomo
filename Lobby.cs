@@ -100,25 +100,8 @@ namespace Sistema_Autonomo_Predadores
             {
                 MostrarSucesso("Partida iniciada com sucesso!");
 
-                //AQUI CHAMA O DO FRMJOGO
-                //  FrmJogo.IniciarAutomacao(); N FUNCIONOU
 
-
-                MessageBox.Show("ID partida: " + _partida.Id);
                 await Task.Delay(1000);
-
-                //ABRE O JOGO AUTOMATICAMENTE 
-                FrmJogo frm = new FrmJogo();
-
-                frm.AtualizarInfoTurno(
-                    _jogador.Nome,
-                    _jogador.Id,
-                    _jogador.Senha,
-                   _partida.Id
-                    );
-                frm.Show();
-
-                this.Hide();
             }
               
         }
@@ -152,13 +135,6 @@ namespace Sistema_Autonomo_Predadores
             dgvListarJogadores.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvListarJogadores.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvListarJogadores.Columns[2].Visible = false;
-        }
-
-        // ── Navegação ───────────────────────────────────────────────────────────
-
-        private void btnVoltar_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         // ── Helpers ─────────────────────────────────────────────────────────────
