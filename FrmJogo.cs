@@ -397,6 +397,10 @@ namespace Sistema_Autonomo_Predadores
         // Controla se já reservamos um dino para a Ilha Solitária
         private bool _ilhaSolitariaReservada = false;
 
+        // Cache dos tabuleiros dos adversários: idJogador → (cercado → lista de dinos)
+        private Dictionary<int, Dictionary<string, List<Dinossauro>>> _tabuleiroAdversarios
+            = new Dictionary<int, Dictionary<string, List<Dinossauro>>>();
+
         //TIMER
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -417,6 +421,9 @@ namespace Sistema_Autonomo_Predadores
             if (_jogador.Mao == null || _jogador.Mao.Count == 0)
                 return;
 
+            // Atualiza leitura dos tabuleiros adversários antes de decidir
+            AtualizarTabuleiroAdversarios();
+
             var jogada = EscolherJogada();
 
             if (jogada.HasValue)
@@ -435,7 +442,7 @@ namespace Sistema_Autonomo_Predadores
             var disponiveis = _jogador.Mao.Where(d => d.Quantidade > 0).ToList();
             foreach (var dino in disponiveis)
             {
-                foreach (var cercado in new[] { "CD", "MT", "RS", "IS", "PA", "RI", "FI" })
+                foreach (var cercado in new[] { "CD", "MT", "PA", "RS", "IS", "RI", "FI" })
                 {
                     if (AdicionarDino(dino.Nome, cercado))
                     {
@@ -451,34 +458,87 @@ namespace Sistema_Autonomo_Predadores
             ultimoTurnoJogada = _turno.TurnoAtual;
         }
 
+        private void AtualizarTabuleiroAdversarios()
+        {
+            if (_partida.Jogadores == null) return;
+
+            _tabuleiroAdversarios.Clear();
+
+            foreach (var jogador in _partida.Jogadores.Where(j => j.Id != _jogador.Id))
+            {
+                string retorno = Jogo.ExibirTabuleiro(jogador.Id);
+
+                if (string.IsNullOrWhiteSpace(retorno) || retorno.Contains("ERRO"))
+                    continue;
+
+                var cercadosAdv = new Dictionary<string, List<Dinossauro>>();
+
+                foreach (var linha in retorno.Replace("\r", "").Split('\n'))
+                {
+                    if (string.IsNullOrWhiteSpace(linha)) continue;
+
+                    var partes = linha.Split(',');
+                    if (partes.Length < 3) continue;
+
+                    string cercado = partes[0].Trim();
+                    string nomeDino = partes[1].Trim();
+                    if (!int.TryParse(partes[2].Trim(), out int qtd)) continue;
+
+                    if (!cercadosAdv.ContainsKey(cercado))
+                        cercadosAdv[cercado] = new List<Dinossauro>();
+
+                    cercadosAdv[cercado].Add(new Dinossauro { Nome = nomeDino, Quantidade = qtd });
+                }
+
+                _tabuleiroAdversarios[jogador.Id] = cercadosAdv;
+            }
+        }
+
+        private int MaxDinoAdversarioNaCor(string nomeDino)
+        {
+            int max = 0;
+            foreach (var tabuleiro in _tabuleiroAdversarios.Values)
+            {
+                int totalAdv = tabuleiro.Values
+                    .SelectMany(lista => lista)
+                    .Where(d => d.Nome == nomeDino)
+                    .Sum(d => d.Quantidade);
+                if (totalAdv > max) max = totalAdv;
+            }
+            return max;
+        }
+
         /// Prioridades:
-        ///   1. Campina da Diferença (CD) — baixo risco, maioria dos dinos
-        ///   2. Mata Tripla (MT)          — baixo risco, 2ª prioridade
-        ///   3. Rei da Selva (RS)         — médio risco, só se já tem ≥2 dinos da mesma cor
-        ///   4. Ilha Solitária (IS)       — reservar 1 dino único para ela
-        ///   5. Floresta da Igualdade (FI)— alto risco, evitar
-        ///   T-Rex: evitar na Campina se CD tiver menos de 4; preferir MT para T-Rex
-        
+        ///   1. Campina da Diferença (CD)  — baixo risco, maioria dos dinos
+        ///   2. Mata Tripla (MT)           — baixo risco, 2ª prioridade; T-Rex bem-vindo aqui
+        ///   3. Rei da Selva (RS)          — médio risco, só com ≥3 dinos da cor E liderança sobre adversários
+        ///   4. Ilha Solitária (IS)        — 7pts garantidos; forçar nos turnos finais se ainda vazia
+        ///   5. Pradaria do Amor (PA)      — 5pts por casal; usar dinos repetidos que não servem pra CD
+        ///   6. Floresta da Igualdade (FI) — alto risco; só se ≥2 da mesma cor E cor não dominada por adversário
+        ///   7. Rio (RI)                   — 1pt, destino seguro de último recurso
+     
         private (string dino, string cercado)? EscolherJogada()
         {
             var mao = _jogador.Mao.Where(d => d.Quantidade > 0).ToList();
             if (mao.Count == 0) return null;
 
-            // Separa T-Rex dos demais
             var trex = mao.FirstOrDefault(d => d.Nome == "Ti");
             var semTrex = mao.Where(d => d.Nome != "Ti").ToList();
+
             int cdPreenchida = _cercados["CD"].Sum(d => d.Quantidade);
             int mtPreenchida = _cercados["MT"].Sum(d => d.Quantidade);
+            int turnoAtual = _turno.TurnoAtual;
 
             // ── Prioridade 1: Campina da Diferença (CD) ──────────────────────────────
             foreach (var dino in semTrex)
             {
-                // CD aceita apenas cores diferentes das já presentes
                 bool corNovaParaCD = !_cercados["CD"].Any(d => d.Nome == dino.Nome);
+
+                // Guarda pra IS se: IS vazia, este é o único exemplar no zoo todo
                 bool reservarParaIS = !_ilhaSolitariaReservada
                     && _cercados["IS"].Count == 0
                     && mao.Count(d => d.Nome == dino.Nome) == 1
-                    && !_cercados.Any(kv => kv.Key != "IS" && kv.Value.Any(d => d.Nome == dino.Nome));
+                    && !_cercados.Any(kv => kv.Value.Any(d => d.Nome == dino.Nome));
 
                 if (corNovaParaCD && !reservarParaIS && ValidarJogada(dino.Nome, "CD"))
                     return (dino.Nome, "CD");
@@ -490,11 +550,19 @@ namespace Sistema_Autonomo_Predadores
                 if (trex != null && ValidarJogada(trex.Nome, "MT"))
                     return (trex.Nome, "MT");
 
-                foreach (var dino in semTrex)
-                {
+                // Prefere dinos com cor já presente na CD (não competem mais por ela)
+                var dinoCorJaNaCD = semTrex
+                    .Where(d => _cercados["CD"].Any(c => c.Nome == d.Nome))
+                    .ToList();
+
+                foreach (var dino in dinoCorJaNaCD)
                     if (ValidarJogada(dino.Nome, "MT"))
                         return (dino.Nome, "MT");
-                }
+
+                // Se não, usa qualquer outro dino disponível
+                foreach (var dino in semTrex)
+                    if (ValidarJogada(dino.Nome, "MT"))
+                        return (dino.Nome, "MT");
             }
 
             // ── Prioridade 3: Rei da Selva (RS) ──────────────────────────────────────
@@ -502,13 +570,16 @@ namespace Sistema_Autonomo_Predadores
             {
                 foreach (var dino in semTrex)
                 {
-                    int totalDessaCor = _cercados.Values
+                    int totalNosso = _cercados.Values
                         .SelectMany(c => c)
                         .Where(d => d.Nome == dino.Nome)
                         .Sum(d => d.Quantidade)
                         + mao.Where(d => d.Nome == dino.Nome).Sum(d => d.Quantidade);
 
-                    if (totalDessaCor >= 2 && ValidarJogada(dino.Nome, "RS"))
+                    int maxAdversario = MaxDinoAdversarioNaCor(dino.Nome);
+
+                    // Só aposta: temos ≥3 no total E somos líderes ou empatados
+                    if (totalNosso >= 3 && totalNosso >= maxAdversario && ValidarJogada(dino.Nome, "RS"))
                         return (dino.Nome, "RS");
                 }
             }
@@ -525,6 +596,41 @@ namespace Sistema_Autonomo_Predadores
                         return (dino.Nome, "IS");
                     }
                 }
+
+                // Emergência nos turnos finais: IS ainda vazia → coloca qualquer dino
+                if (turnoAtual >= 9)
+                {
+                    foreach (var dino in semTrex)
+                    {
+                        if (ValidarJogada(dino.Nome, "IS"))
+                        {
+                            _ilhaSolitariaReservada = true;
+                            return (dino.Nome, "IS");
+                        }
+                    }
+                }
+            }
+
+            // ── Prioridade 5: Pradaria do Amor (PA) ──────────────────────────────────
+            {
+                // Dinos com cor já presente na PA (completa casal)
+                var casaisPossiveis = semTrex
+                    .Where(d => _cercados["PA"].Any(c => c.Nome == d.Nome))
+                    .ToList();
+
+                foreach (var dino in casaisPossiveis)
+                    if (ValidarJogada(dino.Nome, "PA"))
+                        return (dino.Nome, "PA");
+
+                // Dinos com ≥2 exemplares na mão (podemos mandar o par agora e nos próximos turnos)
+                var paresNaMao = semTrex
+                    .Where(d => mao.Count(m => m.Nome == d.Nome) >= 2
+                             && _cercados["CD"].Any(c => c.Nome == d.Nome)) 
+                    .ToList();
+
+                foreach (var dino in paresNaMao)
+                    if (ValidarJogada(dino.Nome, "PA"))
+                        return (dino.Nome, "PA");
             }
 
             // ── T-Rex: fallback estratégico ───────────────────────────────────────────
@@ -534,23 +640,31 @@ namespace Sistema_Autonomo_Predadores
                     return (trex.Nome, "CD");
                 if (ValidarJogada(trex.Nome, "MT"))
                     return (trex.Nome, "MT");
+                if (ValidarJogada(trex.Nome, "PA"))
+                    return (trex.Nome, "PA");
                 if (ValidarJogada(trex.Nome, "RI"))
                     return (trex.Nome, "RI");
             }
 
-            // ── Floresta da Igualdade (FI) — último recurso entre os cercados ────────
+            // ── Prioridade 6: Floresta da Igualdade (FI) — alto risco ────────────────
             foreach (var dino in semTrex)
             {
                 bool fiJaTemEssaCor = _cercados["FI"].Any(d => d.Nome == dino.Nome);
                 bool fiVazia = _cercados["FI"].Count == 0;
+                int totalNaMao = mao.Where(d => d.Nome == dino.Nome).Sum(d => d.Quantidade);
+                int maxAdversario = MaxDinoAdversarioNaCor(dino.Nome);
 
-                // Só investe em FI se já há maioria garantida (≥ 2 disponíveis desta cor)
-                int totalDessaCor = mao.Where(d => d.Nome == dino.Nome).Sum(d => d.Quantidade);
-                if ((fiVazia || fiJaTemEssaCor) && totalDessaCor >= 2 && ValidarJogada(dino.Nome, "FI"))
+                int totalNosso = _cercados.Values.SelectMany(c => c)
+                    .Where(d => d.Nome == dino.Nome).Sum(d => d.Quantidade) + totalNaMao;
+
+                if ((fiVazia || fiJaTemEssaCor)
+                    && totalNaMao >= 2
+                    && totalNosso >= maxAdversario
+                    && ValidarJogada(dino.Nome, "FI"))
                     return (dino.Nome, "FI");
             }
 
-            // ── Rio (RI): destino seguro quando nada mais é válido ────────────────────
+            // ── Prioridade 7: Rio (RI) — 1pt, melhor que perder o dino ───────────────
             foreach (var dino in mao)
             {
                 if (ValidarJogada(dino.Nome, "RI"))
