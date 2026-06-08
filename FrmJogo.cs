@@ -394,11 +394,13 @@ namespace Sistema_Autonomo_Predadores
         //FORÇANDO A RODAR UM TURNO
         private int ultimoTurnoJogada = -1;
 
+        // Controla se já reservamos um dino para a Ilha Solitária
+        private bool _ilhaSolitariaReservada = false;
+
         //TIMER
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
             btnAtualizar_Click(null, null);
 
             if (_turno.TurnoAtual > 12)
@@ -408,88 +410,156 @@ namespace Sistema_Autonomo_Predadores
                 return;
             }
 
-            //pra não jogar 2 vezes no mesmo turno
+            // Não jogar duas vezes no mesmo turno
             if (_turno.TurnoAtual == ultimoTurnoJogada)
                 return;
 
             if (_jogador.Mao == null || _jogador.Mao.Count == 0)
                 return;
 
-            bool jogouAlgo = false;
+            var jogada = EscolherJogada();
 
-            var dinosDisponiveis = _jogador.Mao
-                .Where(d => d.Quantidade > 0)
-                .OrderBy(x => random.Next())
-                .ToList();
-
-            string[] cercados = { "FI", "PA", "CD", "RI", "MT", "IS", "RS" };
-
-            foreach (var dino in dinosDisponiveis)
+            if (jogada.HasValue)
             {
-                foreach (var cercado in cercados)
+                bool jogou = AdicionarDino(jogada.Value.dino, jogada.Value.cercado);
+                if (jogou)
                 {
-                    if (ValidarJogada(dino.Nome, cercado))
+                    AtualizarLabelMao();
+                    ultimoTurnoJogada = _turno.TurnoAtual;
+                    lblStatus.Text = $"Estratégia: {jogada.Value.dino} → {jogada.Value.cercado}";
+                    return;
+                }
+            }
+
+            // Fallback: qualquer jogada válida para não travar
+            var disponiveis = _jogador.Mao.Where(d => d.Quantidade > 0).ToList();
+            foreach (var dino in disponiveis)
+            {
+                foreach (var cercado in new[] { "CD", "MT", "RS", "IS", "PA", "RI", "FI" })
+                {
+                    if (AdicionarDino(dino.Nome, cercado))
                     {
-                        bool jogou = AdicionarDino(dino.Nome, cercado);
-
-                        if (jogou)
-                        {
-                            AtualizarLabelMao();
-
-                            ultimoTurnoJogada = _turno.TurnoAtual;
-                            jogouAlgo = true;
-
-                            break;
-                        }
+                        AtualizarLabelMao();
+                        ultimoTurnoJogada = _turno.TurnoAtual;
+                        lblStatus.Text = $"Fallback: {dino.Nome} → {cercado}";
+                        return;
                     }
                 }
-
-                if (jogouAlgo)
-                    break;
             }
-                if (!jogouAlgo)
+
+            // Nenhuma jogada possível — avança o controle de turno
+            ultimoTurnoJogada = _turno.TurnoAtual;
+        }
+
+        /// Prioridades:
+        ///   1. Campina da Diferença (CD) — baixo risco, maioria dos dinos
+        ///   2. Mata Tripla (MT)          — baixo risco, 2ª prioridade
+        ///   3. Rei da Selva (RS)         — médio risco, só se já tem ≥2 dinos da mesma cor
+        ///   4. Ilha Solitária (IS)       — reservar 1 dino único para ela
+        ///   5. Floresta da Igualdade (FI)— alto risco, evitar
+        ///   T-Rex: evitar na Campina se CD tiver menos de 4; preferir MT para T-Rex
+        
+        private (string dino, string cercado)? EscolherJogada()
+        {
+            var mao = _jogador.Mao.Where(d => d.Quantidade > 0).ToList();
+            if (mao.Count == 0) return null;
+
+            // Separa T-Rex dos demais
+            var trex = mao.FirstOrDefault(d => d.Nome == "Ti");
+            var semTrex = mao.Where(d => d.Nome != "Ti").ToList();
+            int cdPreenchida = _cercados["CD"].Sum(d => d.Quantidade);
+            int mtPreenchida = _cercados["MT"].Sum(d => d.Quantidade);
+
+            // ── Prioridade 1: Campina da Diferença (CD) ──────────────────────────────
+            foreach (var dino in semTrex)
+            {
+                // CD aceita apenas cores diferentes das já presentes
+                bool corNovaParaCD = !_cercados["CD"].Any(d => d.Nome == dino.Nome);
+                bool reservarParaIS = !_ilhaSolitariaReservada
+                    && _cercados["IS"].Count == 0
+                    && mao.Count(d => d.Nome == dino.Nome) == 1
+                    && !_cercados.Any(kv => kv.Key != "IS" && kv.Value.Any(d => d.Nome == dino.Nome));
+
+                if (corNovaParaCD && !reservarParaIS && ValidarJogada(dino.Nome, "CD"))
+                    return (dino.Nome, "CD");
+            }
+
+            // ── Prioridade 2: Mata Tripla (MT) ───────────────────────────────────────
+            if (mtPreenchida < 3)
+            {
+                if (trex != null && ValidarJogada(trex.Nome, "MT"))
+                    return (trex.Nome, "MT");
+
+                foreach (var dino in semTrex)
                 {
-                    foreach (var dino2 in dinosDisponiveis)
+                    if (ValidarJogada(dino.Nome, "MT"))
+                        return (dino.Nome, "MT");
+                }
+            }
+
+            // ── Prioridade 3: Rei da Selva (RS) ──────────────────────────────────────
+            if (_cercados["RS"].Count == 0)
+            {
+                foreach (var dino in semTrex)
+                {
+                    int totalDessaCor = _cercados.Values
+                        .SelectMany(c => c)
+                        .Where(d => d.Nome == dino.Nome)
+                        .Sum(d => d.Quantidade)
+                        + mao.Where(d => d.Nome == dino.Nome).Sum(d => d.Quantidade);
+
+                    if (totalDessaCor >= 2 && ValidarJogada(dino.Nome, "RS"))
+                        return (dino.Nome, "RS");
+                }
+            }
+
+            // ── Prioridade 4: Ilha Solitária (IS) ────────────────────────────────────
+            if (_cercados["IS"].Count == 0)
+            {
+                foreach (var dino in semTrex)
+                {
+                    bool unicoNoZoo = !_cercados.Any(kv => kv.Value.Any(d => d.Nome == dino.Nome));
+                    if (unicoNoZoo && ValidarJogada(dino.Nome, "IS"))
                     {
-                        foreach (var cercado in cercados)
-                        {
-                            bool jogou = AdicionarDino(dino2.Nome, cercado);
-
-                            if (jogou)
-                            {
-                                AtualizarLabelMao();
-
-                                ultimoTurnoJogada = _turno.TurnoAtual;
-                                return;
-                            }
-                        }
+                        _ilhaSolitariaReservada = true;
+                        return (dino.Nome, "IS");
                     }
                 }
-            if (!jogouAlgo)
-            {
-                // força passar o turno mesmo sem jogar
-                ultimoTurnoJogada = _turno.TurnoAtual;
             }
+
+            // ── T-Rex: fallback estratégico ───────────────────────────────────────────
+            if (trex != null)
+            {
+                if (cdPreenchida >= 4 && ValidarJogada(trex.Nome, "CD"))
+                    return (trex.Nome, "CD");
+                if (ValidarJogada(trex.Nome, "MT"))
+                    return (trex.Nome, "MT");
+                if (ValidarJogada(trex.Nome, "RI"))
+                    return (trex.Nome, "RI");
+            }
+
+            // ── Floresta da Igualdade (FI) — último recurso entre os cercados ────────
+            foreach (var dino in semTrex)
+            {
+                bool fiJaTemEssaCor = _cercados["FI"].Any(d => d.Nome == dino.Nome);
+                bool fiVazia = _cercados["FI"].Count == 0;
+
+                // Só investe em FI se já há maioria garantida (≥ 2 disponíveis desta cor)
+                int totalDessaCor = mao.Where(d => d.Nome == dino.Nome).Sum(d => d.Quantidade);
+                if ((fiVazia || fiJaTemEssaCor) && totalDessaCor >= 2 && ValidarJogada(dino.Nome, "FI"))
+                    return (dino.Nome, "FI");
+            }
+
+            // ── Rio (RI): destino seguro quando nada mais é válido ────────────────────
+            foreach (var dino in mao)
+            {
+                if (ValidarJogada(dino.Nome, "RI"))
+                    return (dino.Nome, "RI");
+            }
+
+            return null;
         }
 
-        private void panel1HUD_Paint(object sender, PaintEventArgs e)
-        {
 
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblJogadorDado_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPartida_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
