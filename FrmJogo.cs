@@ -323,9 +323,93 @@ namespace Sistema_Autonomo_Predadores
 
         private PictureBox CriarPictureBoxDino(Image imagem, Panel destino, int totalSlots, int dinosNoPanel)
         {
+            if (destino == panelRI)
+            {
+                int tamanhoRio = 100;
+
+                int coluna = dinosNoPanel % 3;
+                int linha = dinosNoPanel / 3;
+
+                return new PictureBox
+                {
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Width = tamanhoRio,
+                    Height = tamanhoRio,
+
+                    Left = coluna * 60,
+                    Top = linha * 80,
+
+                    BackColor = Color.Transparent,
+                    Image = imagem
+                };
+            }
+
+            if (destino == panelFI)
+            {
+                int tamanhoFI = 60;
+
+                return new PictureBox
+                {
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Width = tamanhoFI,
+                    Height = tamanhoFI,
+
+                    Left = (dinosNoPanel * 40) - 15,
+                    Top = 40,
+
+                    BackColor = Color.Transparent,
+                    Image = imagem
+                };
+            }
+
+            if (destino == panelCD)
+            {
+                int tamanhoFI = 60;
+
+                return new PictureBox
+                {
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Width = tamanhoFI,
+                    Height = tamanhoFI,
+
+                    Left = (dinosNoPanel * 43) - 15,
+                    Top = 70,
+
+                    BackColor = Color.Transparent,
+                    Image = imagem
+                };
+            }
+
+            if (destino == panelMT)
+            {
+                int tamanhoMT = 60;
+
+                int[] posX = { 20, 120, 70 };
+                int[] posY = { 20, 20, 80 };
+
+                return new PictureBox
+                {
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Width = tamanhoMT,
+                    Height = tamanhoMT,
+
+                    Left = posX[dinosNoPanel],
+                    Top = posY[dinosNoPanel],
+
+                    BackColor = Color.Transparent,
+                    Image = imagem
+                };
+            }
+
             int colunas = totalSlots == 6 ? 3 : totalSlots;
             int linhas = totalSlots == 6 ? 2 : 1;
             int padding = 4;
+
+            if (destino == panelRI)
+            {
+                colunas = 2;
+                linhas = 3;
+            }
 
             int dinoW = (destino.Width - padding * (colunas + 1)) / colunas;
             int dinoH = (destino.Height - padding * (linhas + 1)) / linhas;
@@ -433,7 +517,7 @@ namespace Sistema_Autonomo_Predadores
                 {
                     AtualizarLabelMao();
                     ultimoTurnoJogada = _turno.TurnoAtual;
-                    lblStatus.Text = $"Estratégia: {jogada.Value.dino} → {jogada.Value.cercado}";
+                    lblStatus.Text = $"Estratégia:\n {jogada.Value.dino} → {jogada.Value.cercado}";
                     return;
                 }
             }
@@ -674,6 +758,9 @@ namespace Sistema_Autonomo_Predadores
             return null;
         }
 
+        private void panelRI_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
     }
 }

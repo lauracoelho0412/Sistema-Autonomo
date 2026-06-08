@@ -70,10 +70,10 @@
             // 
             this.panelTabu.BackColor = System.Drawing.Color.Transparent;
             this.panelTabu.Image = global::Sistema_Autonomo_Predadores.Properties.Resources.tabuleiro1;
-            this.panelTabu.Location = new System.Drawing.Point(18, 11);
-            this.panelTabu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelTabu.Location = new System.Drawing.Point(24, 14);
+            this.panelTabu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelTabu.Name = "panelTabu";
-            this.panelTabu.Size = new System.Drawing.Size(596, 509);
+            this.panelTabu.Size = new System.Drawing.Size(795, 626);
             this.panelTabu.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.panelTabu.TabIndex = 0;
             this.panelTabu.TabStop = false;
@@ -81,55 +81,56 @@
             // panelPA
             // 
             this.panelPA.BackColor = System.Drawing.Color.Black;
-            this.panelPA.Location = new System.Drawing.Point(44, 351);
-            this.panelPA.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelPA.Location = new System.Drawing.Point(59, 432);
+            this.panelPA.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelPA.Name = "panelPA";
-            this.panelPA.Size = new System.Drawing.Size(166, 116);
+            this.panelPA.Size = new System.Drawing.Size(221, 143);
             this.panelPA.TabIndex = 1;
             // 
             // panelIS
             // 
             this.panelIS.BackColor = System.Drawing.Color.Black;
-            this.panelIS.Location = new System.Drawing.Point(396, 340);
-            this.panelIS.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelIS.Location = new System.Drawing.Point(528, 418);
+            this.panelIS.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelIS.Name = "panelIS";
-            this.panelIS.Size = new System.Drawing.Size(98, 89);
+            this.panelIS.Size = new System.Drawing.Size(131, 110);
             this.panelIS.TabIndex = 2;
             // 
             // panelMT
             // 
             this.panelMT.BackColor = System.Drawing.Color.Black;
-            this.panelMT.Location = new System.Drawing.Point(29, 201);
-            this.panelMT.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelMT.Location = new System.Drawing.Point(39, 247);
+            this.panelMT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelMT.Name = "panelMT";
-            this.panelMT.Size = new System.Drawing.Size(159, 101);
+            this.panelMT.Size = new System.Drawing.Size(212, 124);
             this.panelMT.TabIndex = 3;
             // 
             // panelRI
             // 
             this.panelRI.BackColor = System.Drawing.Color.Black;
-            this.panelRI.Location = new System.Drawing.Point(216, 194);
-            this.panelRI.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelRI.Location = new System.Drawing.Point(304, 470);
+            this.panelRI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelRI.Name = "panelRI";
-            this.panelRI.Size = new System.Drawing.Size(78, 142);
+            this.panelRI.Size = new System.Drawing.Size(224, 228);
             this.panelRI.TabIndex = 4;
+            this.panelRI.Paint += new System.Windows.Forms.PaintEventHandler(this.panelRI_Paint);
             // 
             // panelCD
             // 
             this.panelCD.BackColor = System.Drawing.Color.Black;
-            this.panelCD.Location = new System.Drawing.Point(310, 200);
-            this.panelCD.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelCD.Location = new System.Drawing.Point(413, 246);
+            this.panelCD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelCD.Name = "panelCD";
-            this.panelCD.Size = new System.Drawing.Size(190, 123);
+            this.panelCD.Size = new System.Drawing.Size(253, 151);
             this.panelCD.TabIndex = 5;
             // 
             // panelFI
             // 
             this.panelFI.BackColor = System.Drawing.Color.Black;
-            this.panelFI.Location = new System.Drawing.Point(35, 31);
-            this.panelFI.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelFI.Location = new System.Drawing.Point(47, 38);
+            this.panelFI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelFI.Name = "panelFI";
-            this.panelFI.Size = new System.Drawing.Size(184, 115);
+            this.panelFI.Size = new System.Drawing.Size(245, 142);
             this.panelFI.TabIndex = 6;
             // 
             // panel1HUD
@@ -143,10 +144,10 @@
             this.panel1HUD.Controls.Add(this.panel2);
             this.panel1HUD.Controls.Add(this.panel1);
             this.panel1HUD.Controls.Add(this.lblPartida);
-            this.panel1HUD.Location = new System.Drawing.Point(618, 11);
-            this.panel1HUD.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1HUD.Location = new System.Drawing.Point(824, 14);
+            this.panel1HUD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1HUD.Name = "panel1HUD";
-            this.panel1HUD.Size = new System.Drawing.Size(457, 509);
+            this.panel1HUD.Size = new System.Drawing.Size(630, 684);
             this.panel1HUD.TabIndex = 7;
             // 
             // panel7
@@ -154,10 +155,10 @@
             this.panel7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel7.BackgroundImage")));
             this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel7.Controls.Add(this.lblCercados);
-            this.panel7.Location = new System.Drawing.Point(235, 323);
-            this.panel7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel7.Location = new System.Drawing.Point(313, 398);
+            this.panel7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(214, 183);
+            this.panel7.Size = new System.Drawing.Size(300, 272);
             this.panel7.TabIndex = 15;
             // 
             // lblCercados
@@ -166,10 +167,9 @@
             this.lblCercados.BackColor = System.Drawing.Color.SandyBrown;
             this.lblCercados.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCercados.ForeColor = System.Drawing.Color.Purple;
-            this.lblCercados.Location = new System.Drawing.Point(56, 11);
-            this.lblCercados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCercados.Location = new System.Drawing.Point(84, 14);
             this.lblCercados.Name = "lblCercados";
-            this.lblCercados.Size = new System.Drawing.Size(93, 25);
+            this.lblCercados.Size = new System.Drawing.Size(110, 31);
             this.lblCercados.TabIndex = 1;
             this.lblCercados.Text = "Cercados";
             this.lblCercados.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -179,10 +179,10 @@
             this.panel6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel6.BackgroundImage")));
             this.panel6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel6.Controls.Add(this.lblMao);
-            this.panel6.Location = new System.Drawing.Point(9, 234);
-            this.panel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel6.Location = new System.Drawing.Point(12, 288);
+            this.panel6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(214, 251);
+            this.panel6.Size = new System.Drawing.Size(285, 309);
             this.panel6.TabIndex = 14;
             // 
             // lblMao
@@ -191,10 +191,9 @@
             this.lblMao.BackColor = System.Drawing.Color.SandyBrown;
             this.lblMao.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMao.ForeColor = System.Drawing.Color.Purple;
-            this.lblMao.Location = new System.Drawing.Point(73, 11);
-            this.lblMao.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblMao.Location = new System.Drawing.Point(97, 14);
             this.lblMao.Name = "lblMao";
-            this.lblMao.Size = new System.Drawing.Size(65, 32);
+            this.lblMao.Size = new System.Drawing.Size(81, 41);
             this.lblMao.TabIndex = 2;
             this.lblMao.Text = "Mão";
             this.lblMao.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -204,10 +203,10 @@
             this.panel5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel5.BackgroundImage")));
             this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel5.Controls.Add(this.lblStatus);
-            this.panel5.Location = new System.Drawing.Point(234, 234);
-            this.panel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel5.Location = new System.Drawing.Point(312, 288);
+            this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(214, 80);
+            this.panel5.Size = new System.Drawing.Size(285, 98);
             this.panel5.TabIndex = 13;
             // 
             // lblStatus
@@ -216,10 +215,9 @@
             this.lblStatus.BackColor = System.Drawing.Color.SandyBrown;
             this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.Purple;
-            this.lblStatus.Location = new System.Drawing.Point(75, 11);
-            this.lblStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStatus.Location = new System.Drawing.Point(100, 14);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(83, 32);
+            this.lblStatus.Size = new System.Drawing.Size(105, 41);
             this.lblStatus.TabIndex = 1;
             this.lblStatus.Text = "Status";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -229,10 +227,10 @@
             this.panel4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel4.BackgroundImage")));
             this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel4.Controls.Add(this.lblDado);
-            this.panel4.Location = new System.Drawing.Point(234, 145);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel4.Location = new System.Drawing.Point(312, 178);
+            this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(214, 80);
+            this.panel4.Size = new System.Drawing.Size(285, 98);
             this.panel4.TabIndex = 12;
             // 
             // lblDado
@@ -241,10 +239,9 @@
             this.lblDado.BackColor = System.Drawing.Color.SandyBrown;
             this.lblDado.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDado.ForeColor = System.Drawing.Color.Purple;
-            this.lblDado.Location = new System.Drawing.Point(71, 11);
-            this.lblDado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblDado.Location = new System.Drawing.Point(95, 14);
             this.lblDado.Name = "lblDado";
-            this.lblDado.Size = new System.Drawing.Size(75, 32);
+            this.lblDado.Size = new System.Drawing.Size(93, 41);
             this.lblDado.TabIndex = 1;
             this.lblDado.Text = "Dado";
             this.lblDado.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -254,10 +251,10 @@
             this.panel3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel3.BackgroundImage")));
             this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel3.Controls.Add(this.lblTurno);
-            this.panel3.Location = new System.Drawing.Point(9, 145);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Location = new System.Drawing.Point(12, 178);
+            this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(214, 80);
+            this.panel3.Size = new System.Drawing.Size(285, 98);
             this.panel3.TabIndex = 9;
             // 
             // lblTurno
@@ -266,10 +263,9 @@
             this.lblTurno.BackColor = System.Drawing.Color.SandyBrown;
             this.lblTurno.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTurno.ForeColor = System.Drawing.Color.Purple;
-            this.lblTurno.Location = new System.Drawing.Point(70, 11);
-            this.lblTurno.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTurno.Location = new System.Drawing.Point(93, 14);
             this.lblTurno.Name = "lblTurno";
-            this.lblTurno.Size = new System.Drawing.Size(81, 32);
+            this.lblTurno.Size = new System.Drawing.Size(100, 41);
             this.lblTurno.TabIndex = 1;
             this.lblTurno.Text = "Turno";
             this.lblTurno.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -279,10 +275,10 @@
             this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel2.Controls.Add(this.lblJogadorDado);
-            this.panel2.Location = new System.Drawing.Point(234, 57);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Location = new System.Drawing.Point(312, 70);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(214, 80);
+            this.panel2.Size = new System.Drawing.Size(285, 98);
             this.panel2.TabIndex = 11;
             // 
             // lblJogadorDado
@@ -291,10 +287,9 @@
             this.lblJogadorDado.BackColor = System.Drawing.Color.SandyBrown;
             this.lblJogadorDado.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblJogadorDado.ForeColor = System.Drawing.Color.Purple;
-            this.lblJogadorDado.Location = new System.Drawing.Point(52, 11);
-            this.lblJogadorDado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblJogadorDado.Location = new System.Drawing.Point(69, 14);
             this.lblJogadorDado.Name = "lblJogadorDado";
-            this.lblJogadorDado.Size = new System.Drawing.Size(209, 30);
+            this.lblJogadorDado.Size = new System.Drawing.Size(265, 38);
             this.lblJogadorDado.TabIndex = 1;
             this.lblJogadorDado.Text = "Jogador com Dado";
             this.lblJogadorDado.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -304,10 +299,10 @@
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel1.Controls.Add(this.lblJogador);
-            this.panel1.Location = new System.Drawing.Point(9, 57);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Location = new System.Drawing.Point(12, 70);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(214, 80);
+            this.panel1.Size = new System.Drawing.Size(285, 98);
             this.panel1.TabIndex = 8;
             // 
             // lblJogador
@@ -316,10 +311,9 @@
             this.lblJogador.BackColor = System.Drawing.Color.SandyBrown;
             this.lblJogador.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblJogador.ForeColor = System.Drawing.Color.Purple;
-            this.lblJogador.Location = new System.Drawing.Point(66, 11);
-            this.lblJogador.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblJogador.Location = new System.Drawing.Point(88, 14);
             this.lblJogador.Name = "lblJogador";
-            this.lblJogador.Size = new System.Drawing.Size(108, 32);
+            this.lblJogador.Size = new System.Drawing.Size(133, 41);
             this.lblJogador.TabIndex = 0;
             this.lblJogador.Text = "Jogador";
             this.lblJogador.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -330,10 +324,9 @@
             this.lblPartida.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.lblPartida.Font = new System.Drawing.Font("Segoe UI", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPartida.ForeColor = System.Drawing.Color.SandyBrown;
-            this.lblPartida.Location = new System.Drawing.Point(14, 9);
-            this.lblPartida.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPartida.Location = new System.Drawing.Point(19, 11);
             this.lblPartida.Name = "lblPartida";
-            this.lblPartida.Size = new System.Drawing.Size(169, 47);
+            this.lblPartida.Size = new System.Drawing.Size(205, 59);
             this.lblPartida.TabIndex = 10;
             this.lblPartida.Text = "PARTIDA";
             this.lblPartida.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -341,10 +334,10 @@
             // panelRS
             // 
             this.panelRS.BackColor = System.Drawing.Color.Black;
-            this.panelRS.Location = new System.Drawing.Point(344, 44);
-            this.panelRS.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelRS.Location = new System.Drawing.Point(459, 54);
+            this.panelRS.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelRS.Name = "panelRS";
-            this.panelRS.Size = new System.Drawing.Size(83, 72);
+            this.panelRS.Size = new System.Drawing.Size(111, 89);
             this.panelRS.TabIndex = 6;
             // 
             // timer1
@@ -354,11 +347,11 @@
             // 
             // FrmJogo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Sienna;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1028, 534);
+            this.ClientSize = new System.Drawing.Size(1501, 772);
             this.Controls.Add(this.panelRS);
             this.Controls.Add(this.panelCD);
             this.Controls.Add(this.panel1HUD);
@@ -368,7 +361,7 @@
             this.Controls.Add(this.panelIS);
             this.Controls.Add(this.panelPA);
             this.Controls.Add(this.panelTabu);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FrmJogo";
             this.Text = "FrmJogo";
             this.Load += new System.EventHandler(this.FrmJogo_Load);
