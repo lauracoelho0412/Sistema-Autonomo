@@ -1,7 +1,9 @@
-﻿using Draft;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Draft;
 
 namespace Sistema_Autonomo_Predadores
 {
@@ -10,15 +12,60 @@ namespace Sistema_Autonomo_Predadores
         private Jogador _jogador;
         private Partida _partida;
         private Turno _turno;
+        private Size tamanhoOriginalForm;
+        private Dictionary<Control, Rectangle> controlesOriginais = new Dictionary<Control, Rectangle>();
+
+        private void SalvarControles(Control control)
+        {
+            foreach (Control c in control.Controls)
+            {
+                controlesOriginais[c] = new Rectangle(c.Location, c.Size);
+
+                if (c.Controls.Count > 0)
+                    SalvarControles(c);
+            }
+        }
 
         public Lobby()
         {
             InitializeComponent();
+
+            tamanhoOriginalForm = this.Size;
+
+            SalvarControles(this);
+
+            this.Resize += Lobby_Resize;
+
             lblVersao.Text = "Versão: " + Jogo.versao;
 
             _jogador = new Jogador();
             _partida = new Partida();
             _turno = new Turno();
+        }
+
+        private void Lobby_Resize(object sender, EventArgs e)
+        {
+            float scaleX = (float)this.Width / tamanhoOriginalForm.Width;
+            float scaleY = (float)this.Height / tamanhoOriginalForm.Height;
+
+            foreach (var item in controlesOriginais)
+            {
+                Control c = item.Key;
+                Rectangle r = item.Value;
+
+                c.Location = new Point(
+                    (int)(r.X * scaleX),
+                    (int)(r.Y * scaleY));
+
+                c.Size = new Size(
+                    (int)(r.Width * scaleX),
+                    (int)(r.Height * scaleY));
+
+                c.Font = new Font(
+                    c.Font.FontFamily,
+                    c.Font.Size * Math.Min(scaleX, scaleY),
+                    c.Font.Style);
+            }
         }
 
         // ── Seleção de Partida ──────────────────────────────────────────────────
@@ -180,5 +227,9 @@ namespace Sistema_Autonomo_Predadores
         private void MostrarSucesso(string mensagem) =>
             MessageBox.Show(mensagem, "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+        private void panelContainer_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
