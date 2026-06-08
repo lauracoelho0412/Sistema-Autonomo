@@ -117,4 +117,4 @@ F5
 
 ## 👥 Equipe
 
-Projeto desenvolvido para fins acadêmicos, visando aplicar conceitos de Inteligência Artificial e Programação Orientada a Objetos na simulação de jogos de estratégia.
+Projeto desenvolvido para fins acadêmicos, visando aplicar conceitos de Programação Orientada a Objetos na simulação de jogos de estratégia.
