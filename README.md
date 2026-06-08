@@ -28,7 +28,7 @@ Durante cada rodada:
 4. Posicionam o dinossauro escolhido em um recinto do parque.
 5. Ao final da partida, os pontos são calculados de acordo com as regras dos recintos.
 
-Neste projeto, todas essas ações são executadas automaticamente pelos agentes implementados.
+Neste projeto, todas essas ações são executadas automaticamente pelo sistema implementado.
 
 ---
 
