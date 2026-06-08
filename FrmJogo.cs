@@ -40,7 +40,10 @@ namespace Sistema_Autonomo_Predadores
         public FrmJogo()
         {
             InitializeComponent();
-        
+
+            this.WindowState = FormWindowState.Maximized;
+            this.Scale(new SizeF(1.5f, 1.5f));
+
         }
 
         public void IniciarAutomacao()
@@ -61,6 +64,23 @@ namespace Sistema_Autonomo_Predadores
 
             this.DoubleBuffered = true;
             this.Refresh();
+            AjustarLayout();
+
+        }
+
+        private void AjustarLayout()
+        {
+            int larguraMetade = this.ClientSize.Width / 2;
+
+            panelTabu.Left = 0;
+            panelTabu.Top = 0;
+            panelTabu.Width = larguraMetade;
+            panelTabu.Height = this.ClientSize.Height;
+
+            panel1HUD.Left = larguraMetade;
+            panel1HUD.Top = 0;
+            panel1HUD.Width = larguraMetade;
+            panel1HUD.Height = this.ClientSize.Height;
         }
 
         private void ConfigurarPainelTransparente(Panel painel)
@@ -89,7 +109,7 @@ namespace Sistema_Autonomo_Predadores
             _jogador.Id = idJogador;
             _partida.Id = idPartida;
 
-            lblJogador.Text = "Jogador: " + nomeJogador;
+            lblJogador.Text = "Jogador:\n " + nomeJogador;
 
             string retorno = Jogo.VerificarPartida(_partida.Id);
 
@@ -128,9 +148,9 @@ namespace Sistema_Autonomo_Predadores
 
         private void AtualizarLabels()
         {
-            lblDado.Text = "Dado: " + _turno.Dado;
-            lblTurno.Text = "Turno: " + _turno.TurnoAtual;
-            lblJogadorDado.Text = "Jogador com o dado: " + ObterNomeJogadorDado();
+            lblDado.Text = "Dado:\n " + _turno.Dado;
+            lblTurno.Text = "Turno:\n " + _turno.TurnoAtual;
+            lblJogadorDado.Text = "Jogador com o dado:\n " + ObterNomeJogadorDado();
 
             AtualizarLabelMao();
         }
@@ -452,5 +472,24 @@ namespace Sistema_Autonomo_Predadores
             }
         }
 
+        private void panel1HUD_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblJogadorDado_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblPartida_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
